@@ -74,6 +74,9 @@ Screenshots
 把laravel-admin代码融入laravel框架。方便后续修改。
 
 ## 安装
-composer update
-php artisan admin:install
-会生成所需数据库
+<p>
+1:composer update
+</p>
+<p>
+2:php artisan admin:install 会生成所需数据表库
+</p>
