@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Routing\Controller;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Layout\Content;
 
-class RoleController extends AdminController
+class RoleController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -17,53 +19,53 @@ class RoleController extends AdminController
     }
 
     /**
-     * Make a grid builder.
+     * Index interface.
      *
-     * @return Grid
+     * @param Content $content
+     *
+     * @return Content
      */
-    protected function grid()
+    public function index(Content $content)
     {
         $roleModel = config('admin.database.roles_model');
 
         $grid = new Grid(new $roleModel());
-
         $grid->column('id', 'ID')->sortable();
         $grid->column('slug', trans('admin.slug'));
         $grid->column('name', trans('admin.name'));
-
         $grid->column('permissions', trans('admin.permission'))->pluck('name')->label();
-
         $grid->column('created_at', trans('admin.created_at'));
         $grid->column('updated_at', trans('admin.updated_at'));
-
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->row->slug == 'administrator') {
                 $actions->disableDelete();
             }
         });
-
         $grid->tools(function (Grid\Tools $tools) {
             $tools->batch(function (Grid\Tools\BatchActions $actions) {
                 $actions->disableDelete();
             });
         });
 
-        return $grid;
+        return $content
+            ->title($this->title())
+            ->description($this->description['index'] ?? trans('admin.list'))
+            ->body($grid);
     }
 
     /**
-     * Make a show builder.
+     * Show interface.
      *
-     * @param mixed $id
+     * @param mixed   $id
+     * @param Content $content
      *
-     * @return Show
+     * @return Content
      */
-    protected function detail($id)
+    public function show($id, Content $content)
     {
         $roleModel = config('admin.database.roles_model');
 
         $show = new Show($roleModel::findOrFail($id));
-
         $show->field('id', 'ID');
         $show->field('slug', trans('admin.slug'));
         $show->field('name', trans('admin.name'));
@@ -73,7 +75,10 @@ class RoleController extends AdminController
         $show->field('created_at', trans('admin.created_at'));
         $show->field('updated_at', trans('admin.updated_at'));
 
-        return $show;
+        return $content
+            ->title($this->title())
+            ->description($this->description['show'] ?? trans('admin.show'))
+            ->body($show);
     }
 
     /**
@@ -98,5 +103,70 @@ class RoleController extends AdminController
         $form->display('updated_at', trans('admin.updated_at'));
 
         return $form;
+    }
+
+    /**
+     * Edit interface.
+     *
+     * @param mixed   $id
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function edit($id, Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->description($this->description['edit'] ?? trans('admin.edit'))
+            ->body($this->form()->edit($id));
+    }
+
+    /**
+     * Create interface.
+     *
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function create(Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->description($this->description['create'] ?? trans('admin.create'))
+            ->body($this->form());
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id)
+    {
+        return $this->form()->update($id);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return mixed
+     */
+    public function store()
+    {
+        return $this->form()->store();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        return $this->form()->destroy($id);
     }
 }
