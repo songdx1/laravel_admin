@@ -74,9 +74,11 @@ Screenshots
 把laravel-admin代码融入laravel框架。方便后续修改。
 
 ## 安装
+1.配置.env文件
 <p>
-1:composer update
+2:composer update
 </p>
+3.php artisan migrate
 <p>
-2:php artisan admin:install 会生成所需数据表库
+4:php artisan db:seed
 </p>
