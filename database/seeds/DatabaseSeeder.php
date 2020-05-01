@@ -64,7 +64,25 @@ class DatabaseSeeder extends Seeder
                         'name'        => '权限管理',
                         'slug'        => 'auth.management',
                         'http_method' => '',
-                        'http_path'   => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs",
+                        'http_path'   => "/auth/permissions",
+                    ],
+                    [
+                        'name'        => '菜单管理',
+                        'slug'        => 'auth.menu',
+                        'http_method' => '',
+                        'http_path'   => "/auth/menu",
+                    ],
+                    [
+                        'name'        => '角色管理',
+                        'slug'        => 'auth.roles',
+                        'http_method' => '',
+                        'http_path'   => "/auth/roles",
+                    ],
+                    [
+                        'name'        => '操作日志',
+                        'slug'        => 'auth.logs',
+                        'http_method' => '',
+                        'http_path'   => "/auth/logs",
                     ],
                 ]);
         
@@ -116,7 +134,7 @@ class DatabaseSeeder extends Seeder
                         'uri'       => 'auth/menu',
                     ],
                     [
-                        'parent_id' => 2,
+                        'parent_id' => 0,
                         'order'     => 7,
                         'title'     => '操作日志',
                         'icon'      => 'fa-history',
