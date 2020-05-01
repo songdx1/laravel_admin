@@ -15,7 +15,6 @@ class AdminServiceProvider extends ServiceProvider
         \App\Console\AdminCommand::class,
         \App\Console\MakeCommand::class,
         \App\Console\MenuCommand::class,
-        \App\Console\InstallCommand::class,
         \App\Console\PublishCommand::class,
         \App\Console\UninstallCommand::class,
         \App\Console\ImportCommand::class,
