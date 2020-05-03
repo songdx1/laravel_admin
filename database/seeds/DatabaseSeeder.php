@@ -55,28 +55,34 @@ class DatabaseSeeder extends Seeder
                         'http_path'   => "/auth/login\r\n/auth/logout",
                     ],
                     [
-                        'name'        => '用户设置',
+                        'name'        => '个人设置',
                         'slug'        => 'auth.setting',
                         'http_method' => 'GET,PUT',
                         'http_path'   => '/auth/setting',
+                    ],
+                    [
+                        'name'        => '用户管理',
+                        'slug'        => 'auth.users',
+                        'http_method' => '',
+                        'http_path'   => '/auth/users',
                     ],
                     [
                         'name'        => '权限管理',
                         'slug'        => 'auth.management',
                         'http_method' => '',
                         'http_path'   => "/auth/permissions",
+                    ],                    
+                    [
+                        'name'        => '角色管理',
+                        'slug'        => 'auth.roles',
+                        'http_method' => '',
+                        'http_path'   => "/auth/roles",
                     ],
                     [
                         'name'        => '菜单管理',
                         'slug'        => 'auth.menu',
                         'http_method' => '',
                         'http_path'   => "/auth/menu",
-                    ],
-                    [
-                        'name'        => '角色管理',
-                        'slug'        => 'auth.roles',
-                        'http_method' => '',
-                        'http_path'   => "/auth/roles",
                     ],
                     [
                         'name'        => '操作日志',
