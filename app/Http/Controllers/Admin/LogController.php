@@ -34,7 +34,7 @@ class LogController extends Controller
         });
         $grid->column('path','请求路径')->label('info');
         $grid->column('ip')->label('primary');
-        $grid->column('input','请求输入')->display(function ($input) {
+        $grid->column('input','输入')->display(function ($input) {
             $input = json_decode($input, true);
             $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
             if (empty($input)) {
