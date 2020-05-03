@@ -187,19 +187,12 @@ EOT;
      */
     public function render()
     {
-        $this->setupScript();
-
-        $submitRedirects = [
-            1 => 'continue_editing',
-            2 => 'continue_creating',
-            3 => 'view',
-        ];
+        $this->setupScript();   
 
         $data = [
             'width'            => $this->builder->getWidth(),
             'buttons'          => $this->buttons,
             'checkboxes'       => $this->checkboxes,
-            'submit_redirects' => $submitRedirects,
             'default_check'    => $this->defaultCheck,
         ];
 

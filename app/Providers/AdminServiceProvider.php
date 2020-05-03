@@ -8,25 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AdminServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
-    protected $commands = [
-        \App\Console\AdminCommand::class,
-        \App\Console\MakeCommand::class,
-        \App\Console\MenuCommand::class,
-        \App\Console\PublishCommand::class,
-        \App\Console\UninstallCommand::class,
-        \App\Console\ImportCommand::class,
-        \App\Console\CreateUserCommand::class,
-        \App\Console\ResetPasswordCommand::class,
-        \App\Console\ExtendCommand::class,
-        \App\Console\ExportSeedCommand::class,
-        \App\Console\MinifyCommand::class,
-        \App\Console\FormCommand::class,
-        \App\Console\PermissionCommand::class,
-        \App\Console\ActionCommand::class,
-    ];
 
     /**
      * The application's route middleware.
@@ -113,8 +94,6 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadAdminAuthConfig();
 
         $this->registerRouteMiddleware();
-
-        $this->commands($this->commands);
     }
 
     /**

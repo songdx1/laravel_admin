@@ -4,7 +4,7 @@ namespace Encore\Admin\Grid\Displayers;
 
 use Encore\Admin\Admin;
 
-class ContextMenuActions extends DropdownActions
+class ContextMenuActions extends Actions
 {
     /**
      * {@inheritdoc}
