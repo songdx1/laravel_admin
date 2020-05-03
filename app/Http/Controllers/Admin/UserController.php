@@ -41,14 +41,11 @@ class UserController extends Controller
                 $actions->disableDelete();
             }
         });
-        $grid->tools(function (Grid\Tools $tools) {
-            $tools->batch(function (Grid\Tools\BatchActions $actions) {
-                $actions->disableDelete();
-            });
-        });
+        $grid->disableBatchActions();
 
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
             ->description($this->description['index'] ?? trans('admin.list'))
             ->body($grid);
     }
@@ -80,6 +77,7 @@ class UserController extends Controller
 
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'查看'])
             ->description($this->description['show'] ?? trans('admin.show'))
             ->body($show);
     }
@@ -96,6 +94,7 @@ class UserController extends Controller
     {
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'编辑'])
             ->description($this->description['edit'] ?? trans('admin.edit'))
             ->body($this->form()->edit($id));
     }
@@ -111,6 +110,7 @@ class UserController extends Controller
     {
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
             ->description($this->description['create'] ?? trans('admin.create'))
             ->body($this->form());
     }

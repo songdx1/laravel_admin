@@ -13,10 +13,7 @@ class LogController extends Controller
     /**
      * {@inheritdoc}
      */
-    protected function title()
-    {
-        return trans('admin.operation_log');
-    }
+    protected $title = '操作日志';
 
     /**
      * Index interface.
@@ -30,14 +27,14 @@ class LogController extends Controller
         $grid = new Grid(new OperationLog());
         $grid->model()->orderBy('id', 'DESC');
         $grid->column('id', 'ID')->sortable();
-        $grid->column('user.name', 'User');
-        $grid->column('method')->display(function ($method) {
+        $grid->column('user.name', '用户');
+        $grid->column('method', '请求动作')->display(function ($method) {
             $color = Arr::get(OperationLog::$methodColors, $method, 'grey');
             return "<span class=\"badge bg-$color\">$method</span>";
         });
-        $grid->column('path')->label('info');
+        $grid->column('path','请求路径')->label('info');
         $grid->column('ip')->label('primary');
-        $grid->column('input')->display(function ($input) {
+        $grid->column('input','请求输入')->display(function ($input) {
             $input = json_decode($input, true);
             $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
             if (empty($input)) {
@@ -53,14 +50,15 @@ class LogController extends Controller
         $grid->disableCreateButton();
         $grid->filter(function (Grid\Filter $filter) {
             $userModel = config('admin.database.users_model');
-            $filter->equal('user_id', 'User')->select($userModel::all()->pluck('name', 'id'));
-            $filter->equal('method')->select(array_combine(OperationLog::$methods, OperationLog::$methods));
-            $filter->like('path');
+            $filter->equal('user_id', '用户')->select($userModel::all()->pluck('name', 'id'));
+            $filter->equal('method','请求动作')->select(array_combine(OperationLog::$methods, OperationLog::$methods));
+            $filter->like('path','请求路径');
             $filter->equal('ip');
         });
 
         return $content
-            ->title($this->title())
+            ->title($this->title)
+            ->breadcrumb(['text'=>$this->title])
             ->description($this->description['index'] ?? trans('admin.list'))
             ->body($grid);
     }

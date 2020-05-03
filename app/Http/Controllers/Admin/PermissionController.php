@@ -54,14 +54,11 @@ class PermissionController extends Controller
         });
         $grid->column('created_at', trans('admin.created_at'));
         $grid->column('updated_at', trans('admin.updated_at'));
-        $grid->tools(function (Grid\Tools $tools) {
-            $tools->batch(function (Grid\Tools\BatchActions $actions) {
-                $actions->disableDelete();
-            });
-        });
+        $grid->disableBatchActions();
 
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
             ->description($this->description['index'] ?? trans('admin.list'))
             ->body($grid);
     }
@@ -105,6 +102,7 @@ class PermissionController extends Controller
         
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'查看'])
             ->description($this->description['show'] ?? trans('admin.show'))
             ->body($show);
     }
@@ -121,6 +119,7 @@ class PermissionController extends Controller
     {
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'编辑'])
             ->description($this->description['edit'] ?? trans('admin.edit'))
             ->body($this->form()->edit($id));
     }
@@ -136,6 +135,7 @@ class PermissionController extends Controller
     {
         return $content
             ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
             ->description($this->description['create'] ?? trans('admin.create'))
             ->body($this->form());
     }

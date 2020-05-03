@@ -24,6 +24,7 @@ class MenuController extends Controller
     {
         return $content
             ->title(trans('admin.menu'))
+            ->breadcrumb(['text'=>'系统管理'],['text'=>trans('admin.menu')])
             ->description(trans('admin.list'))
             ->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
@@ -105,6 +106,7 @@ class MenuController extends Controller
     {
         return $content
             ->title(trans('admin.menu'))
+            ->breadcrumb(['text'=>'系统管理'],['text'=>trans('admin.menu')],['text'=>'编辑'])
             ->description(trans('admin.edit'))
             ->row($this->form()->edit($id));
     }

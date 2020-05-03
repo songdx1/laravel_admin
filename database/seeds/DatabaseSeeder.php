@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
                     [
                         'parent_id' => 0,
                         'order'     => 2,
-                        'title'     => '管理员',
+                        'title'     => '系统管理',
                         'icon'      => 'fa-tasks',
                         'uri'       => '',
                     ],
