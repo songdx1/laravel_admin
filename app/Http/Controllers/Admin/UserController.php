@@ -61,25 +61,14 @@ class UserController extends Controller
     public function show($id, Content $content)
     {
         $userModel = config('admin.database.users_model');
-
-        $show = new Show($userModel::findOrFail($id));
-        $show->field('id', 'ID');
-        $show->field('username', trans('admin.username'));
-        $show->field('name', trans('admin.name'));
-        $show->field('roles', trans('admin.roles'))->as(function ($roles) {
-            return $roles->pluck('name');
-        })->label();
-        $show->field('permissions', trans('admin.permissions'))->as(function ($permission) {
-            return $permission->pluck('name');
-        })->label();
-        $show->field('created_at', trans('admin.created_at'));
-        $show->field('updated_at', trans('admin.updated_at'));
+        $model = $userModel::findOrFail($id);
+        $tools = new \Encore\Admin\Tools($model);
 
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'查看'])
             ->description($this->description['show'] ?? trans('admin.show'))
-            ->body($show);
+            ->view('admin.user.show',['tools'=>$tools->render(),'model'=>$model]);
     }
 
     /**
