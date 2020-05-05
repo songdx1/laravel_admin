@@ -74,37 +74,31 @@ class PermissionController extends Controller
     public function show($id, Content $content)
     {
         $permissionModel = config('admin.database.permissions_model');
+        $model = $permissionModel::findOrFail($id);
 
-        $show = new Show($permissionModel::findOrFail($id));
-        $show->field('id', 'ID');
-        $show->field('slug', trans('admin.slug'));
-        $show->field('name', trans('admin.name'));
-        $show->field('http_path', trans('admin.route'))->unescape()->as(function ($path) {
-            return collect(explode("\r\n", $path))->map(function ($path) {
-                $method = $this->http_method ?: ['ANY'];
-                if (Str::contains($path, ':')) {
-                    list($method, $path) = explode(':', $path);
-                    $method = explode(',', $method);
-                }
-                $method = collect($method)->map(function ($name) {
-                    return strtoupper($name);
-                })->map(function ($name) {
-                    return "<span class='label label-primary'>{$name}</span>";
-                })->implode('&nbsp;');
-                if (!empty(config('admin.route.prefix'))) {
-                    $path = '/'.trim(config('admin.route.prefix'), '/').$path;
-                }
-                return "<div style='margin-bottom: 5px;'>$method<code>$path</code></div>";
-            })->implode('');
-        });
-        $show->field('created_at', trans('admin.created_at'));
-        $show->field('updated_at', trans('admin.updated_at'));
+        $method = $model->http_method ?: ['ANY'];
+        $path = $model->http_path;
+        if (Str::contains($path, ':')) {
+            list($method, $path) = explode(':', $path);
+            $method = explode(',', $method);
+        }
+        $method = collect($method)->map(function ($name) {
+            return strtoupper($name);
+        })->map(function ($name) {
+            return "<span class='label label-primary'>{$name}</span>";
+        })->implode('&nbsp;');
+        if (!empty(config('admin.route.prefix'))) {
+            $path = '/'.trim(config('admin.route.prefix'), '/').$path;
+        }
+        $model->routes = "<div style='margin-bottom: 5px;'>$method<code>$path</code></div>";
         
+        $tools = new \Encore\Admin\Tools($model);
+
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'查看'])
             ->description($this->description['show'] ?? trans('admin.show'))
-            ->body($show);
+            ->view('admin.permission.show',['tools'=>$tools->render(),'model'=>$model]);
     }
 
     /**
