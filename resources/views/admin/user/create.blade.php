@@ -4,7 +4,7 @@
         <h3 class="box-title">创建</h3>
 
         <div class="box-tools">
-            {!! $renderList !!}
+            {!! $tools !!}
         </div>
     </div>
     <!-- /.box-header -->
