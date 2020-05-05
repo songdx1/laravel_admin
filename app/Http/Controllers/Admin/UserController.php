@@ -97,6 +97,28 @@ class UserController extends Controller
      */
     public function create(Content $content)
     {
+        // $userModel = config('admin.database.users_model');
+        // $permissionModel = config('admin.database.permissions_model');
+        // $roleModel = config('admin.database.roles_model');
+        // $form = new Form(new $userModel());
+        // $builder =new \Encore\Admin\Form\Builder($form);
+        // $tools = new \Encore\Admin\Tools($userModel);
+        // $image = new \Encore\Admin\Form\Field\File('avatar',['头像']);
+        // return $content
+        //     ->title($this->title())
+        //     ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
+        //     ->description($this->description['create'] ?? trans('admin.create'))
+        //     ->view(
+        //         'admin.user.form',
+        //         [
+        //             'renderList'=>$tools->renderList(),
+        //             'form'=>$builder,
+        //             'image'=>$image->render()->getData(),
+        //             'roles'=>$roleModel::all()->pluck('name', 'id'),
+        //             'permissions'=>$permissionModel::all()->pluck('name', 'id')
+        //         ]
+        //     );
+
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])

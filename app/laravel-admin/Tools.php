@@ -47,7 +47,7 @@ class Tools implements Renderable
      *
      * @param Panel $panel
      */
-    public function __construct($model, $builder = null)
+    public function __construct($model = null, $builder = null)
     {
         $this->model = $model;
         $this->builder = $builder;
@@ -185,7 +185,7 @@ class Tools implements Renderable
      *
      * @return string
      */
-    protected function renderList()
+    public function renderList()
     {
         $list = trans('admin.list');
 
