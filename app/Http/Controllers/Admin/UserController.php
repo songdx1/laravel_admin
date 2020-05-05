@@ -122,7 +122,8 @@ class UserController extends Controller
         $form = new Form(new $userModel());
         $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($userModel);
-        $image = new \Encore\Admin\Form\Field\File('avatar',['头像']);
+        $image = new \Encore\Admin\Form\File('avatar',['头像']);
+
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
@@ -130,7 +131,7 @@ class UserController extends Controller
             ->view(
                 'admin.user.create',
                 [
-                    'renderList'=>$tools->renderList(),
+                    'tools'=>$tools->renderList(),
                     'form'=>$builder,
                     'image'=>$image->render()->getData(),
                     'roles'=>$roleModel::all()->pluck('name', 'id'),
