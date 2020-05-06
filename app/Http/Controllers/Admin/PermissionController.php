@@ -8,6 +8,8 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Str;
 use Encore\Admin\Layout\Content;
+use App\Models\Permission;
+use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -28,9 +30,7 @@ class PermissionController extends Controller
      */
     public function index(Content $content)
     {
-        $permissionModel = config('admin.database.permissions_model');
-
-        $grid = new Grid(new $permissionModel());
+        $grid = new Grid(new Permission);
         $grid->column('id', 'ID')->sortable();
         $grid->column('slug', trans('admin.slug'));
         $grid->column('name', trans('admin.name'));
@@ -73,8 +73,7 @@ class PermissionController extends Controller
      */
     public function show($id, Content $content)
     {
-        $permissionModel = config('admin.database.permissions_model');
-        $model = $permissionModel::findOrFail($id);
+        $model = Permission::findOrFail($id);
 
         $method = $model->http_method ?: ['ANY'];
         $path = $model->http_path;
@@ -111,6 +110,24 @@ class PermissionController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $model = Permission::findOrFail($id);
+        $form = new Form($model);
+        $builder =new \Encore\Admin\Form\Builder($form);
+        $tools = new \Encore\Admin\Tools($model);
+
+        return $content
+            ->title($this->title())
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
+            ->description($this->description['create'] ?? trans('admin.create'))
+            ->view(
+                'admin.permission.edit',
+                [
+                    'tools'=>$tools->render(),
+                    'form'=>$builder,
+                    'methods'=>$this->getHttpMethodsOptions(),
+                    'model'=>$model,
+                ]
+            );
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'编辑'])
@@ -127,34 +144,22 @@ class PermissionController extends Controller
      */
     public function create(Content $content)
     {
+        $form = new Form(new Permission);
+        $builder =new \Encore\Admin\Form\Builder($form);
+        $tools = new \Encore\Admin\Tools(new Permission);
+
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
             ->description($this->description['create'] ?? trans('admin.create'))
-            ->body($this->form());
-    }
-
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    public function form()
-    {
-        $permissionModel = config('admin.database.permissions_model');
-
-        $form = new Form(new $permissionModel());
-        $form->display('id', 'ID');
-        $form->text('slug', trans('admin.slug'))->rules('required');
-        $form->text('name', trans('admin.name'))->rules('required');
-        $form->multipleSelect('http_method', trans('admin.http.method'))
-            ->options($this->getHttpMethodsOptions())
-            ->help(trans('admin.all_methods_if_empty'));
-        $form->textarea('http_path', trans('admin.http.path'));
-        $form->display('created_at', trans('admin.created_at'));
-        $form->display('updated_at', trans('admin.updated_at'));
-
-        return $form;
+            ->view(
+                'admin.permission.create',
+                [
+                    'tools'=>$tools->renderList(),
+                    'form'=>$builder,
+                    'methods'=>$this->getHttpMethodsOptions(),
+                ]
+            );
     }
 
     /**
@@ -186,9 +191,16 @@ class PermissionController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        return $this->form()->store();
+        $Permission = new Permission;
+        $Permission->slug = $request->slug;
+        $Permission->name = $request->name;
+        $Permission->http_method = implode(",",$request->http_method); 
+        $Permission->http_path = $request->http_path;       
+        $Permission->save();
+
+        return redirect()->route('admin.auth.permissions.index', $Permission);
     }
 
     /**
@@ -200,6 +212,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        return $this->form()->destroy($id);
+        $permission = Permission::findOrFail($id)->delete();
+        return redirect()->route('admin.auth.permissions.index', $permission);
     }
 }

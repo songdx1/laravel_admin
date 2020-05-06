@@ -9,6 +9,9 @@ use Encore\Admin\Layout\Row;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
 use Illuminate\Routing\Controller;
+use App\Models\Menu;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -28,6 +31,8 @@ class MenuController extends Controller
             ->description(trans('admin.list'))
             ->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
+
+                // $row->column(6, $this->createView());
 
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
@@ -94,6 +99,24 @@ class MenuController extends Controller
         return $tree;
     }
 
+    protected function createView()
+    {
+        $roleModel = config('admin.database.roles_model');
+        $form = new Form(new Menu);
+        $builder =new \Encore\Admin\Form\Builder($form);
+        $tools = new \Encore\Admin\Tools(new Menu);
+        $icon = new Form\Icon;
+        return view(
+            'admin.menu.create',
+            [
+                'tools'=>$tools->renderList(),
+                'form'=>$builder,
+                'menuOptions'=>Menu::selectOptions(),
+                'roles'=>$roleModel::all()->pluck('name', 'id'),
+            ]
+        );
+    }
+
     /**
      * Edit interface.
      *
@@ -104,6 +127,27 @@ class MenuController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $roleModel = config('admin.database.roles_model');
+        $permissionModel = config('admin.database.permissions_model');
+        $model = Menu::findOrFail($id);
+        $form = new Form($model);
+        $builder =new \Encore\Admin\Form\Builder($form);
+        $tools = new \Encore\Admin\Tools($model);
+
+        return $content
+            ->title('菜单')
+            ->breadcrumb(['text'=>'系统管理'],['text'=>'菜单'],['text'=>'新增'])
+            ->description($this->description['create'] ?? trans('admin.create'))
+            ->view(
+                'admin.menu.edit',
+                [
+                    'tools'=>$tools->render(),
+                    'form'=>$builder,
+                    'menuOptions'=>Menu::selectOptions(),
+                    'roles'=>$roleModel::all()->pluck('name', 'id')->toArray(),
+                    'model'=>$model,
+                ]
+            );
         return $content
             ->title(trans('admin.menu'))
             ->breadcrumb(['text'=>'系统管理'],['text'=>trans('admin.menu')],['text'=>'编辑'])
@@ -158,8 +202,25 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
+        $menu = Menu::findOrFail($id);
+        $menu->parent_id = $request->parent_id;
+        $menu->title = $request->title;
+        $menu->icon = $request->icon;
+        $menu->uri = $request->uri;
+
+        DB::beginTransaction();
+        try{
+            $menu->save();
+            $menu->permissions()->sync($request->permissions);
+            DB::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            DB::rollBack();
+        }
+
+        return redirect()->route('admin.auth.menu.index', $menu);
         return $this->form()->update($id);
     }
 
@@ -168,9 +229,25 @@ class MenuController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        return $this->form()->store();
+        $menu = new Menu;
+        $menu->parent_id = $request->parent_id;
+        $menu->title = $request->title;
+        $menu->icon = $request->icon;
+        $menu->uri = $request->uri;
+
+        DB::beginTransaction();
+        try{
+            $menu->save();
+            $menu->roles()->sync($request->roles);
+            DB::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            DB::rollBack();
+        }
+
+        return redirect()->route('admin.auth.menu.index', $menu);
     }
 
     /**
@@ -182,6 +259,7 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        return $this->form()->destroy($id);
+        $menu = Menu::findOrFail($id)->delete();
+        return redirect()->route('admin.auth.menu.index', $menu);
     }
 }

@@ -167,7 +167,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->username = $request->username;
-        $user->name = $request->username;
+        $user->name = $request->name;
 
         DB::beginTransaction();
         try{
@@ -206,7 +206,7 @@ class UserController extends Controller
             return redirect()->route('admin.auth.users.index', $request);
         }
         $user->username = $request->username;
-        $user->name = $request->username;
+        $user->name = $request->name;
         $user->remember_token = Str::random(10);
 
         DB::beginTransaction();

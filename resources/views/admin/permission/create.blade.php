@@ -1,5 +1,4 @@
 <script src="/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js"></script>
-<script src="/vendor/laravel-admin/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">创建</h3>
@@ -37,13 +36,23 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="permissions" class="col-sm-2 control-label">权限</label>
+                    <label for="http_method" class="col-sm-2 control-label">HTTP方法</label>
                     <div class="col-sm-8">
-                        <select class="form-control permissions" style="width: 100%;" name="permissions[]" multiple="multiple" data-placeholder="输入 权限" data-value >
-                            @foreach($permissions as $select => $option)
-                                <option value="{{$select}}">{{$option}}</option>
+                        <select class="form-control http_method" style="width: 100%;" name="http_method[]" multiple="multiple" data-placeholder="HTTP方法" aria-hidden = "true" >
+                            @foreach($methods as $select => $option)
+                                <option value="{{$select}}" >{{$option}}</option>
                             @endforeach
                         </select>
+                        <span class="help-block">
+                            <i class="fa fa-info-circle"></i>&nbsp;为空默认为所有方法
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="permissions" class="col-sm-2 control-label">HTTP路径</label>
+                    <div class="col-sm-8">        
+                        <textarea name="http_path" class="form-control http_path" rows="5" placeholder="输入 HTTP路径"></textarea>        
                     </div>
                 </div>
 
@@ -63,13 +72,6 @@
     {!! $form->close() !!}
 </div>
 <script>
-$(".permissions").bootstrapDualListbox({
-    "infoText":"总共 {0} 项",
-    "infoTextEmpty":"空列表",
-    "infoTextFiltered":"{0} / {1}",
-    "filterTextClear":"显示全部",
-    "filterPlaceHolder":"过滤",
-    "selectorMinimalHeight":200
-});
+$(".http_method").select2({"allowClear":true,"placeholder":{"id":"","text":"权限"}});
 </script>
 

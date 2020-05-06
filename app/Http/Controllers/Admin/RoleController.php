@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Show;
 use Encore\Admin\Layout\Content;
+use App\Models\Role;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -27,9 +29,7 @@ class RoleController extends Controller
      */
     public function index(Content $content)
     {
-        $roleModel = config('admin.database.roles_model');
-
-        $grid = new Grid(new $roleModel());
+        $grid = new Grid(new Role);
         $grid->column('id', 'ID')->sortable();
         $grid->column('slug', trans('admin.slug'));
         $grid->column('name', trans('admin.name'));
@@ -60,8 +60,7 @@ class RoleController extends Controller
      */
     public function show($id, Content $content)
     {
-        $roleModel = config('admin.database.roles_model');
-        $model = $roleModel::findOrFail($id);
+        $model = Role::findOrFail($id);
         $tools = new \Encore\Admin\Tools($model);
 
         return $content
@@ -69,30 +68,6 @@ class RoleController extends Controller
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'查看'])
             ->description($this->description['show'] ?? trans('admin.show'))
             ->view('admin.role.show',['tools'=>$tools->render(),'model'=>$model]);
-    }
-
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    public function form()
-    {
-        $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
-
-        $form = new Form(new $roleModel());
-
-        $form->display('id', 'ID');
-
-        $form->text('slug', trans('admin.slug'))->rules('required');
-        $form->text('name', trans('admin.name'))->rules('required');
-        $form->listbox('permissions', trans('admin.permissions'))->options($permissionModel::all()->pluck('name', 'id'));
-
-        $form->display('created_at', trans('admin.created_at'));
-        $form->display('updated_at', trans('admin.updated_at'));
-
-        return $form;
     }
 
     /**
@@ -106,8 +81,7 @@ class RoleController extends Controller
     public function edit($id, Content $content)
     {
         $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
-        $model = $roleModel::findOrFail($id);
+        $model = Role::findOrFail($id);
         $form = new Form($model);
         $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($model);
@@ -137,10 +111,9 @@ class RoleController extends Controller
     public function create(Content $content)
     {
         $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
-        $form = new Form(new $roleModel());
+        $form = new Form(new Role);
         $builder =new \Encore\Admin\Form\Builder($form);
-        $tools = new \Encore\Admin\Tools($roleModel);
+        $tools = new \Encore\Admin\Tools(new Role);
 
         return $content
             ->title($this->title())
@@ -163,9 +136,23 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        return $this->form()->update($id);
+        $role = Role::findOrFail($id);
+        $role->slug = $request->slug;
+        $role->name = $request->name;
+
+        DB::beginTransaction();
+        try{
+            $role->save();
+            $role->permissions()->sync($request->permissions);
+            DB::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            DB::rollBack();
+        }
+
+        return redirect()->route('admin.auth.roles.index', $role);
     }
 
     /**
@@ -173,9 +160,23 @@ class RoleController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        return $this->form()->store();
+        $role = new Role;
+        $role->slug = $request->slug;
+        $role->name = $request->name;
+
+        DB::beginTransaction();
+        try{
+            $role->save();
+            $role->permissions()->sync($request->permissions);
+            DB::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            DB::rollBack();
+        }
+
+        return redirect()->route('admin.auth.roles.index', $role);
     }
 
     /**
@@ -187,6 +188,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        return $this->form()->destroy($id);
+        $role = Role::findOrFail($id)->delete();
+        return redirect()->route('admin.auth.roles.index', $role);
     }
 }
