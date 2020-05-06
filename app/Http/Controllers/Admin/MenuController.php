@@ -31,29 +31,7 @@ class MenuController extends Controller
             ->description(trans('admin.list'))
             ->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
-
-                // $row->column(6, $this->createView());
-
-                $row->column(6, function (Column $column) {
-                    $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('auth/menu'));
-
-                    $menuModel = config('admin.database.menu_model');
-                    $permissionModel = config('admin.database.permissions_model');
-                    $roleModel = config('admin.database.roles_model');
-
-                    $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
-                    $form->text('title', trans('admin.title'))->rules('required');
-                    $form->icon('icon', trans('admin.icon'))->default('fa-bars')->rules('required')->help($this->iconHelp());
-                    $form->text('uri', trans('admin.uri'));
-                    $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
-                    if ((new $menuModel())->withPermission()) {
-                        $form->select('permission', trans('admin.permission'))->options($permissionModel::pluck('name', 'slug'));
-                    }
-                    $form->hidden('_token')->default(csrf_token());
-
-                    $column->append((new Box(trans('admin.new'), $form))->style('success'));
-                });
+                $row->column(6, $this->createView());
             });
     }
 
@@ -102,15 +80,12 @@ class MenuController extends Controller
     protected function createView()
     {
         $roleModel = config('admin.database.roles_model');
-        $form = new Form(new Menu);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools(new Menu);
         $icon = new Form\Icon;
         return view(
             'admin.menu.create',
             [
                 'tools'=>$tools->renderList(),
-                'form'=>$builder,
                 'menuOptions'=>Menu::selectOptions(),
                 'roles'=>$roleModel::all()->pluck('name', 'id'),
             ]
@@ -130,8 +105,6 @@ class MenuController extends Controller
         $roleModel = config('admin.database.roles_model');
         $permissionModel = config('admin.database.permissions_model');
         $model = Menu::findOrFail($id);
-        $form = new Form($model);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($model);
 
         return $content
@@ -142,7 +115,6 @@ class MenuController extends Controller
                 'admin.menu.edit',
                 [
                     'tools'=>$tools->render(),
-                    'form'=>$builder,
                     'menuOptions'=>Menu::selectOptions(),
                     'roles'=>$roleModel::all()->pluck('name', 'id')->toArray(),
                     'model'=>$model,
@@ -153,36 +125,6 @@ class MenuController extends Controller
             ->breadcrumb(['text'=>'系统管理'],['text'=>trans('admin.menu')],['text'=>'编辑'])
             ->description(trans('admin.edit'))
             ->row($this->form()->edit($id));
-    }
-
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    public function form()
-    {
-        $menuModel = config('admin.database.menu_model');
-        $permissionModel = config('admin.database.permissions_model');
-        $roleModel = config('admin.database.roles_model');
-
-        $form = new Form(new $menuModel());
-
-        $form->display('id', 'ID');
-
-        $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
-        $form->text('title', trans('admin.title'))->rules('required');
-        $form->icon('icon', trans('admin.icon'))->default('fa-bars')->rules('required')->help($this->iconHelp());
-        $form->text('uri', trans('admin.uri'));
-        $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
-        if ($form->model()->withPermission()) {
-            $form->select('permission', trans('admin.permission'))->options($permissionModel::pluck('name', 'slug'));
-        }
-
-        $form->display('created_at', trans('admin.created_at'));
-        $form->display('updated_at', trans('admin.updated_at'));
-
-        return $form;
     }
 
     /**
@@ -259,6 +201,7 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
+        dd($id);
         $menu = Menu::findOrFail($id)->delete();
         return redirect()->route('admin.auth.menu.index', $menu);
     }

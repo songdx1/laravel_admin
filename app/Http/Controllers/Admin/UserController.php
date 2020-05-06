@@ -89,8 +89,6 @@ class UserController extends Controller
         $permissionModel = config('admin.database.permissions_model');
         $roleModel = config('admin.database.roles_model');
         $model = $userModel::findOrFail($id);
-        $form = new Form($model);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($model);
         $image = new \Encore\Admin\Form\File('avatar',['头像'],$model);
 
@@ -102,7 +100,6 @@ class UserController extends Controller
                 'admin.user.edit',
                 [
                     'tools'=>$tools->render(),
-                    'form'=>$builder,
                     'image'=>$image->render()->getData(),
                     'roles'=>$roleModel::all()->pluck('name', 'id'),
                     'permissions'=>$permissionModel::all()->pluck('name', 'id'),
@@ -123,8 +120,6 @@ class UserController extends Controller
         $userModel = config('admin.database.users_model');
         $permissionModel = config('admin.database.permissions_model');
         $roleModel = config('admin.database.roles_model');
-        $form = new Form(new $userModel());
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($userModel);
         $image = new \Encore\Admin\Form\File('avatar',['头像']);
 
@@ -136,7 +131,6 @@ class UserController extends Controller
                 'admin.user.create',
                 [
                     'tools'=>$tools->renderList(),
-                    'form'=>$builder,
                     'image'=>$image->render()->getData(),
                     'roles'=>$roleModel::all()->pluck('name', 'id'),
                     'permissions'=>$permissionModel::all()->pluck('name', 'id')

@@ -111,8 +111,6 @@ class PermissionController extends Controller
     public function edit($id, Content $content)
     {
         $model = Permission::findOrFail($id);
-        $form = new Form($model);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($model);
 
         return $content
@@ -123,16 +121,10 @@ class PermissionController extends Controller
                 'admin.permission.edit',
                 [
                     'tools'=>$tools->render(),
-                    'form'=>$builder,
                     'methods'=>$this->getHttpMethodsOptions(),
                     'model'=>$model,
                 ]
             );
-        return $content
-            ->title($this->title())
-            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'编辑'])
-            ->description($this->description['edit'] ?? trans('admin.edit'))
-            ->body($this->form()->edit($id));
     }
 
     /**
@@ -144,8 +136,6 @@ class PermissionController extends Controller
      */
     public function create(Content $content)
     {
-        $form = new Form(new Permission);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools(new Permission);
 
         return $content
@@ -156,7 +146,6 @@ class PermissionController extends Controller
                 'admin.permission.create',
                 [
                     'tools'=>$tools->renderList(),
-                    'form'=>$builder,
                     'methods'=>$this->getHttpMethodsOptions(),
                 ]
             );
@@ -181,9 +170,16 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        return $this->form()->update($id);
+        $Permission = Permission::findOrFail($id);
+        $Permission->slug = $request->slug;
+        $Permission->name = $request->name;
+        $Permission->http_method = $request->http_method ? implode(",",$request->http_method):''; 
+        $Permission->http_path = $request->http_path;       
+        $Permission->save();
+
+        return redirect()->route('admin.auth.permissions.index', $Permission);
     }
 
     /**
@@ -196,7 +192,7 @@ class PermissionController extends Controller
         $Permission = new Permission;
         $Permission->slug = $request->slug;
         $Permission->name = $request->name;
-        $Permission->http_method = implode(",",$request->http_method); 
+        $Permission->http_method = $request->http_method ? implode(",",$request->http_method):'';
         $Permission->http_path = $request->http_path;       
         $Permission->save();
 

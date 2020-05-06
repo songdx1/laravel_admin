@@ -82,8 +82,6 @@ class RoleController extends Controller
     {
         $permissionModel = config('admin.database.permissions_model');
         $model = Role::findOrFail($id);
-        $form = new Form($model);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools($model);
 
         return $content
@@ -94,7 +92,6 @@ class RoleController extends Controller
                 'admin.role.edit',
                 [
                     'tools'=>$tools->render(),
-                    'form'=>$builder,
                     'permissions'=>$permissionModel::all()->pluck('name', 'id'),
                     'model'=>$model,
                 ]
@@ -111,8 +108,6 @@ class RoleController extends Controller
     public function create(Content $content)
     {
         $permissionModel = config('admin.database.permissions_model');
-        $form = new Form(new Role);
-        $builder =new \Encore\Admin\Form\Builder($form);
         $tools = new \Encore\Admin\Tools(new Role);
 
         return $content
@@ -123,7 +118,6 @@ class RoleController extends Controller
                 'admin.role.create',
                 [
                     'tools'=>$tools->renderList(),
-                    'form'=>$builder,
                     'permissions'=>$permissionModel::all()->pluck('name', 'id')
                 ]
             );

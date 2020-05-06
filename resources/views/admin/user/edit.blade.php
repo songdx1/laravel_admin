@@ -9,7 +9,7 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    {!! $form->open(['class' => "form-horizontal"]) !!}
+    <form action="{!! route('admin.auth.users.update',$model) !!}" method="post" accept-charset="UTF-8" class="form-horizontal" pjax-container="">
 
     @php
     extract($image)
@@ -107,14 +107,25 @@
             </div>            
         </div>
     </div>
-    <!-- /.box-body -->
+    <!-- /.box-body -->    
 
-    {!! $form->renderFooter() !!}
-
-    <input type="hidden" name="_method" value="PUT" class="_method">
+    <div class="box-footer">
+        @csrf
+        @method('PUT')
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="btn-group pull-right">
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>            
+            <div class="btn-group pull-left">
+                <button type="reset" class="btn btn-warning">重置</button>
+            </div>
+        </div>
+    </div>
 
 <!-- /.box-footer -->
-    {!! $form->close() !!}
+    </form>
 </div>
 <script>
 $(".roles").select2({"allowClear":true,"placeholder":{"id":"","text":"角色"}});
