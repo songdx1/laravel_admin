@@ -7,6 +7,10 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Layout\Content;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -147,9 +151,36 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        return $this->form()->update($id);
+        $userModel = config('admin.database.users_model');
+        $user = $userModel::findOrFail($id);
+        //头像        
+        if ($request->hasFile('avatar')){
+            $avatar = $request->file('avatar');
+            $path = $avatar->store('images/'.date('Ymd'), 'admin');
+            $user->avatar = $path;
+        }
+        //密码
+        if($request->password && $request->password_confirmation && $request->password == $request->password_confirmation)
+        {
+            $user->password = Hash::make($request->password);
+        }
+        $user->username = $request->username;
+        $user->name = $request->username;
+
+        DB::beginTransaction();
+        try{
+            $user->save();
+            $user->roles()->sync($request->roles);
+            $user->permissions()->sync($request->permissions);
+            DB::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            DB::rollBack();
+        }
+
+        return redirect()->route('admin.auth.users.index', $user);
     }
 
     /**
@@ -157,9 +188,39 @@ class UserController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        return $this->form()->store();
+        $userModel = config('admin.database.users_model');
+        $user = new $userModel;
+        //头像        
+        if ($request->hasFile('avatar')){
+            $avatar = $request->file('avatar');
+            $path = $avatar->store('images/'.date('Ymd'), 'admin');
+            $user->avatar = $path;
+        }
+        //密码
+        if($request->password && $request->password_confirmation && $request->password == $request->password_confirmation)
+        {
+            $user->password = Hash::make($request->password);
+        }else{
+            return redirect()->route('admin.auth.users.index', $request);
+        }
+        $user->username = $request->username;
+        $user->name = $request->username;
+        $user->remember_token = Str::random(10);
+
+        DB::beginTransaction();
+        try{
+            $user->save();
+            $user->roles()->sync($request->roles);
+            $user->permissions()->sync($request->permissions);
+            DB::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            DB::rollBack();
+        }
+
+        return redirect()->route('admin.auth.users.index', $user);
     }
 
     /**
@@ -171,6 +232,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return $this->form()->destroy($id);
+        $userModel = config('admin.database.users_model');
+        $user = $userModel::findOrFail($id)->delete();
+        return redirect()->route('admin.auth.users.index', $user);
     }
 }

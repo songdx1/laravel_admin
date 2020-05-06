@@ -14,17 +14,7 @@
 
     <div class="box-body">
         <div class="fields-group">
-            <div class="col-md-12">
-
-                <div class="form-group  ">
-                    <label for="username" class="col-sm-2 asterisk control-label">用户名</label>
-                    <div class="col-sm-8">        
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>            
-                            <input type="text" id="username" name="username" value="" class="form-control username" placeholder="输入 用户名">            
-                        </div>        
-                    </div>
-                </div>
+            <div class="col-md-12">                
 
                 <div class="form-group  ">
                     <label for="name" class="col-sm-2 asterisk control-label">名称</label>
@@ -35,11 +25,21 @@
                         </div>                        
                     </div>
                 </div>
+
+                <div class="form-group  ">
+                    <label for="username" class="col-sm-2 asterisk control-label">标识</label>
+                    <div class="col-sm-8">        
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>            
+                            <input type="text" id="slug" name="slug" value="" class="form-control slug" placeholder="输入 标识">            
+                        </div>        
+                    </div>
+                </div>
                 
                 <div class="form-group">
                     <label for="permissions" class="col-sm-2 control-label">权限</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="bootstrap-duallistbox-nonselected-list_permissions[]" style="width: 100%;" name="permissions[]" multiple="multiple" data-placeholder="输入 权限" data-value >
+                        <select class="form-control permissions" style="width: 100%;" name="permissions[]" multiple="multiple" data-placeholder="输入 权限" data-value >
                             @foreach($permissions as $select => $option)
                                 <option value="{{$select}}">{{$option}}</option>
                             @endforeach

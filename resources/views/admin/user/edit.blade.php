@@ -46,7 +46,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-eye-slash fa-fw"></i></span>                            
-                            <input type="password" id="password" name="password" value="{{ $model->password }}" class="form-control password" placeholder="输入 密码">
+                            <input type="password" id="password" name="password" value="" class="form-control password" placeholder="输入 密码">
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-eye-slash fa-fw"></i></span>
-                            <input type="password" id="password_confirmation" name="password_confirmation" value="{{ $model->password }}" class="form-control password_confirmation" placeholder="输入 确认密码">
+                            <input type="password" id="password_confirmation" name="password_confirmation" value="" class="form-control password_confirmation" placeholder="输入 确认密码">
                         </div>
                     </div>
                 </div>
@@ -69,19 +69,17 @@
                                 <option value="{{$select}}" {{  in_array($select, $model->roles()->pluck('id')->toArray() ) ?'selected':'' }}>{{$option}}</option>
                             @endforeach
                         </select>
-                        <input type="hidden" name="roles[]" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="permissions" class="col-sm-2 control-label">角色</label>
+                    <label for="permissions" class="col-sm-2 control-label">权限</label>
                     <div class="col-sm-8">
                         <select class="form-control permissions" style="width: 100%;" name="permissions[]" multiple="multiple" data-placeholder="输入 权限" aria-hidden = "true" >
                             @foreach($permissions as $select => $option)
                                 <option value="{{$select}}" {{  in_array($select, $model->permissions()->pluck('id')->toArray() ) ?'selected':'' }} >{{$option}}</option>
                             @endforeach
                         </select>
-                        <input type="hidden" name="permissions[]" />
                     </div>
                 </div>
 

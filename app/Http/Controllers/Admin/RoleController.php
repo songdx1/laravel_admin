@@ -105,11 +105,26 @@ class RoleController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $permissionModel = config('admin.database.permissions_model');
+        $roleModel = config('admin.database.roles_model');
+        $model = $roleModel::findOrFail($id);
+        $form = new Form($model);
+        $builder =new \Encore\Admin\Form\Builder($form);
+        $tools = new \Encore\Admin\Tools($model);
+
         return $content
             ->title($this->title())
-            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'编辑'])
-            ->description($this->description['edit'] ?? trans('admin.edit'))
-            ->body($this->form()->edit($id));
+            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
+            ->description($this->description['create'] ?? trans('admin.create'))
+            ->view(
+                'admin.role.edit',
+                [
+                    'tools'=>$tools->render(),
+                    'form'=>$builder,
+                    'permissions'=>$permissionModel::all()->pluck('name', 'id'),
+                    'model'=>$model,
+                ]
+            );
     }
 
     /**
@@ -121,30 +136,24 @@ class RoleController extends Controller
      */
     public function create(Content $content)
     {
-        // $permissionModel = config('admin.database.permissions_model');
-        // $roleModel = config('admin.database.roles_model');
-        // $form = new Form(new $roleModel());
-        // $builder =new \Encore\Admin\Form\Builder($form);
-        // $tools = new \Encore\Admin\Tools($roleModel);
-
-        // return $content
-        //     ->title($this->title())
-        //     ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
-        //     ->description($this->description['create'] ?? trans('admin.create'))
-        //     ->view(
-        //         'admin.role.create',
-        //         [
-        //             'tools'=>$tools->renderList(),
-        //             'form'=>$builder,
-        //             'permissions'=>$permissionModel::all()->pluck('name', 'id')
-        //         ]
-        //     );
+        $permissionModel = config('admin.database.permissions_model');
+        $roleModel = config('admin.database.roles_model');
+        $form = new Form(new $roleModel());
+        $builder =new \Encore\Admin\Form\Builder($form);
+        $tools = new \Encore\Admin\Tools($roleModel);
 
         return $content
             ->title($this->title())
             ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()],['text'=>'新增'])
             ->description($this->description['create'] ?? trans('admin.create'))
-            ->body($this->form());
+            ->view(
+                'admin.role.create',
+                [
+                    'tools'=>$tools->renderList(),
+                    'form'=>$builder,
+                    'permissions'=>$permissionModel::all()->pluck('name', 'id')
+                ]
+            );
     }
 
     /**
