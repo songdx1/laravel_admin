@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
 use Encore\Admin\Grid;
-use Encore\Admin\Show;
 use Illuminate\Support\Str;
 use Encore\Admin\Layout\Content;
 use App\Models\Permission;

@@ -51,7 +51,7 @@
                     <div class="col-sm-8">
                         <select class="form-control http_method" style="width: 100%;" name="http_method[]" multiple="multiple" data-placeholder="HTTP方法" aria-hidden = "true" >
                             @foreach($methods as $select => $option)
-                                <option value="{{$select}}" {{  in_array($select, $model->http_method ) ?'selected':'' }}>{{$option}}</option>
+                                <option value="{{$select}}" {{  in_array($select, $model->http_method??[] ) ?'selected':'' }}>{{$option}}</option>
                             @endforeach
                         </select>
                         <span class="help-block">

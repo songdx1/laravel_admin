@@ -81,7 +81,6 @@ class MenuController extends Controller
     {
         $roleModel = config('admin.database.roles_model');
         $tools = new \Encore\Admin\Tools(new Menu);
-        $icon = new Form\Icon;
         return view(
             'admin.menu.create',
             [
