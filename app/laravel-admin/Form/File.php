@@ -5,9 +5,27 @@ namespace Encore\Admin\Form;
 use Encore\Admin\Form\Field;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class File extends Field
 {
+    protected $fileTypes = [
+        'image'  => '/^(gif|png|jpe?g|svg|webp)$/i',
+        'html'   => '/^(htm|html)$/i',
+        'office' => '/^(docx?|xlsx?|pptx?|pps|potx?)$/i',
+        'gdocs'  => '/^(docx?|xlsx?|pptx?|pps|potx?|rtf|ods|odt|pages|ai|dxf|ttf|tiff?|wmf|e?ps)$/i',
+        'text'   => '/^(txt|md|csv|nfo|ini|json|php|js|css|ts|sql)$/i',
+        'video'  => '/^(og?|mp4|webm|mp?g|mov|3gp)$/i',
+        'audio'  => '/^(og?|mp3|mp?g|wav)$/i',
+        'pdf'    => '/^(pdf)$/i',
+        'flash'  => '/^(swf)$/i',
+    ];
+    
+    protected $fileActionSettings = [
+        'showRemove' => false,
+        'showDrag'   => false,
+    ];
     /**
      * Css.
      *
@@ -42,7 +60,21 @@ class File extends Field
             $this->model = $model;
 
         }
-        $this->initStorage();
+        $disk = config('admin.upload.disk');
+        try {
+            $this->storage = Storage::disk($disk);
+        } catch (\Exception $exception) {
+            if (!array_key_exists($disk, config('filesystems.disks'))) {
+                admin_error(
+                    'Config error.',
+                    "Disk [$disk] not configured, please add a disk config in `config/filesystems.php`."
+                );
+
+                return $this;
+            }
+
+            throw $exception;
+        }
 
         parent::__construct($column, $arguments);
     }
@@ -237,7 +269,31 @@ EOT;
     {
         $this->options(['overwriteInitial' => true, 'msgPlaceholder' => trans('admin.choose_file')]);
 
-        $this->setupDefaultOptions();
+        $defaults = [
+            'overwriteInitial'     => false,
+            'initialPreviewAsData' => true,
+            'msgPlaceholder'       => trans('admin.choose_file'),
+            'browseLabel'          => trans('admin.browse'),
+            'cancelLabel'          => trans('admin.cancel'),
+            'showRemove'           => false,
+            'showUpload'           => false,
+            'showCancel'           => false,
+            'dropZoneEnabled'      => false,
+            'deleteExtraData'      => [
+                $this->formatName($this->column) => static::FILE_DELETE_FLAG,
+                static::FILE_DELETE_FLAG         => '',
+                '_token'                         => csrf_token(),
+                '_method'                        => 'PUT',
+            ],
+        ];
+
+        if ($this->form instanceof Form) {
+            $defaults['deleteUrl'] = $this->form->resource().'/'.$this->form->model()->getKey();
+        }
+
+        $defaults = array_merge($defaults, ['fileActionSettings' => $this->fileActionSettings]);
+
+        $this->options($defaults);
 
         if ($this->model) {
             $this->value = $this->model->avatar ?? config('admin.default_avatar');
@@ -260,5 +316,52 @@ EOT;
         $this->setupScripts($options);
 
         return parent::render();
+    }
+
+    public function objectUrl($path)
+    {
+        if (URL::isValidUrl($path)) {
+            return $path;
+        }
+
+        if ($this->storage) {
+            return $this->storage->url($path);
+        }
+
+        return Storage::disk(config('admin.upload.disk'))->url($path);
+    }
+
+    protected function setupPreviewOptions()
+    {
+        $initialPreviewConfig = $this->initialPreviewConfig();
+
+        $this->options(compact('initialPreviewConfig'));
+    }
+
+    protected function guessPreviewType($file)
+    {
+        $filetype = 'other';
+        $ext = strtok(strtolower(pathinfo($file, PATHINFO_EXTENSION)), '?');
+
+        foreach ($this->fileTypes as $type => $pattern) {
+            if (preg_match($pattern, $ext) === 1) {
+                $filetype = $type;
+                break;
+            }
+        }
+
+        $extra = ['type' => $filetype];
+
+        if ($filetype == 'video') {
+            $extra['filetype'] = "video/{$ext}";
+        }
+
+        if ($filetype == 'audio') {
+            $extra['filetype'] = "audio/{$ext}";
+        }
+        
+        $extra['downloadUrl'] = $this->objectUrl($file);
+
+        return $extra;
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Encore\Admin\Form;
+namespace App\Http\Controllers\Admin;
 
 use App\Facades\Admin;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 
-class Tools implements Renderable
+trait Tools
 {
     /**
      * @var Builder
@@ -34,18 +34,7 @@ class Tools implements Renderable
      * @var Collection
      */
     protected $prepends;
-
-    /**
-     * Create a new Tools instance.
-     *
-     * @param Builder $builder
-     */
-    public function __construct(Builder $builder)
-    {
-        $this->form = $builder;
-        $this->appends = new Collection();
-        $this->prepends = new Collection();
-    }
+    
 
     /**
      * Append a tools.
@@ -130,7 +119,7 @@ class Tools implements Renderable
      */
     protected function getListPath()
     {
-        return $this->form->getResource();
+        return route($this->route_name.'.index');
     }
 
     /**
@@ -150,7 +139,7 @@ class Tools implements Renderable
      */
     protected function getViewPath()
     {
-        $key = $this->form->getResourceId();
+        $key = $this->model->id;
 
         if ($key) {
             return $this->getListPath().'/'.$key;
@@ -174,8 +163,11 @@ class Tools implements Renderable
      *
      * @return string
      */
-    protected function renderList()
+    protected function renderList($route_name = '')
     {
+        if($route_name){
+            $this->route_name = $route_name;
+        }
         $text = trans('admin.list');
 
         return <<<EOT
@@ -308,53 +300,23 @@ HTML;
     public function disableListButton()
     {
         return $this->disableList();
-    }
-
-    /**
-     * Render custom tools.
-     *
-     * @param Collection $tools
-     *
-     * @return mixed
-     */
-    protected function renderCustomTools($tools)
-    {
-        if ($this->form->isCreating()) {
-            $this->disableView();
-            $this->disableDelete();
-        }
-
-        if (empty($tools)) {
-            return '';
-        }
-
-        return $tools->map(function ($tool) {
-            if ($tool instanceof Renderable) {
-                return $tool->render();
-            }
-
-            if ($tool instanceof Htmlable) {
-                return $tool->toHtml();
-            }
-
-            return (string) $tool;
-        })->implode(' ');
-    }
+    }  
 
     /**
      * Render tools.
      *
      * @return string
      */
-    public function render()
+    public function render($route_name = '' ,$model = [])
     {
-        $output = $this->renderCustomTools($this->prepends);
-
+        $this->route_name = $route_name;
+        $this->model = $model;
+        $output = '';
         foreach ($this->tools as $tool) {
             $renderMethod = 'render'.ucfirst($tool);
             $output .= $this->$renderMethod();
         }
 
-        return $output.$this->renderCustomTools($this->appends);
+        return $output;
     }
 }

@@ -39,7 +39,12 @@
                     </div>
                 </div>
                 
-                @include('admin::form.file')
+                <div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
+                    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+                    <div class="{{$viewClass['field']}}">
+                        <input type="file" class="{{$class}}" name="{{$name}}" {!! $attributes !!} />
+                    </div>
+                </div>
 
                 <div class="form-group  ">
                     <label for="password" class="col-sm-2 asterisk control-label">密码</label>
