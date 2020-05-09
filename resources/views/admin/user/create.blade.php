@@ -9,11 +9,7 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <form action="{!! route('admin.auth.users.index') !!}" method="post" accept-charset="UTF-8" class="form-horizontal" pjax-container="">    
-
-    @php
-    extract($image)
-    @endphp
+    <form action="{!! route('admin.auth.users.index') !!}" method="post" accept-charset="UTF-8" class="form-horizontal" pjax-container="">   
 
     <div class="box-body">
         <div class="fields-group">
@@ -39,10 +35,10 @@
                     </div>
                 </div>
                 
-                <div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
-                    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
-                    <div class="{{$viewClass['field']}}">
-                        <input type="file" class="{{$class}}" name="{{$name}}" {!! $attributes !!} />
+                <div class="form-group">
+                    <label for="avatar" class="col-sm-2  control-label">头像</label>
+                    <div class="col-sm-8">
+                        <input type="file" class="avatar" name="avatar" >
                     </div>
                 </div>
 
@@ -113,5 +109,6 @@
 <script>
 $(".roles").select2({"allowClear":true,"placeholder":{"id":"","text":"角色"}});
 $(".permissions").select2({"allowClear":true,"placeholder":{"id":"","text":"权限"}});
+$("input.avatar").fileinput({"overwriteInitial":false,"msgPlaceholder":"选择文件","initialPreviewAsData":true,"browseLabel":"浏览"});
 </script>
 
