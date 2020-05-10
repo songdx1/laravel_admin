@@ -16,14 +16,11 @@
             <span class="sr-only">Toggle navigation</span>
         </a>
         <ul class="nav navbar-nav hidden-sm visible-lg-block">
-        {!! Admin::getNavbar()->render('left') !!}
         </ul>
 
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-
-                {!! Admin::getNavbar()->render() !!}
 
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">
