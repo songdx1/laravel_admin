@@ -1,4 +1,6 @@
 <script src="/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js"></script>
+<script src="/vendor/laravel-admin/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"></script>
+<script src="/vendor/laravel-admin/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>
@@ -10,10 +12,6 @@
     <!-- /.box-header -->
     <!-- form start -->
     <form action="{!! route('admin.auth.users.update',$model) !!}" method="post" accept-charset="UTF-8" class="form-horizontal" pjax-container="">
-
-    @php
-    extract($image)
-    @endphp
 
     <div class="box-body">
         <div class="fields-group">
@@ -135,5 +133,15 @@
 <script>
 $(".roles").select2({"allowClear":true,"placeholder":{"id":"","text":"角色"}});
 $(".permissions").select2({"allowClear":true,"placeholder":{"id":"","text":"权限"}});
+$("input.avatar").fileinput({
+    "overwriteInitial":false,
+    "msgPlaceholder":"选择文件",
+    "browseLabel":"浏览",
+    initialPreviewAsData: true,
+    initialPreview: [
+        '{{ $model->avatar }}',
+    ],
+    "fileActionSettings":{"showRemove":false,"showDrag":false}
+});
 </script>
 
