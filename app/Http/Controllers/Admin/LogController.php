@@ -60,7 +60,14 @@ class LogController extends Controller
             ->title($this->title)
             ->breadcrumb(['text'=>$this->title])
             ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($grid);
+            ->view('admin.log.index',
+            [
+                'grid'=>$grid,
+            ]);
+            // ->view('admin.log.index',
+            // [
+            //     'grid'=>$grid,
+            // ]);
     }
 
     /**

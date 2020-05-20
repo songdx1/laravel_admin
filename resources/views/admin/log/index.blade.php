@@ -1,45 +1,68 @@
-<div class="box-header with-border {{ $expand?'':'hide' }}" id="filter-box">
-    <form action="route('admin.auth.logs.index')" class="form-horizontal" pjax-container method="get">
+<div class="box">
+    @if(isset($title))
+    <div class="box-header with-border">
+        <h3 class="box-title"> {{ $title }}</h3>
+    </div>
+    @endif
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box-body">
-                    <div class="fields-group">
-                        
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label"> ID</label>
-                            <div class="col-sm-8">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-pencil"></i>
-                                    </div>
-                                    <input type="text" class="form-control id" placeholder="ID" name="id" value="">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+    @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
+    <div class="box-header with-border">
+        <div class="pull-right">
+            {!! $grid->renderColumnSelector() !!}
+            {!! $grid->renderExportButton() !!}
+            {!! $grid->renderCreateButton() !!}
         </div>
-        <!-- /.box-body -->
-
-        <div class="box-footer">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <div class="btn-group pull-left">
-                            <button class="btn btn-info submit btn-sm"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</button>
-                        </div>
-                        <div class="btn-group pull-left " style="margin-left: 10px;">
-                            <a href="route('admin.auth.logs.index')" class="btn btn-default btn-sm"><i class="fa fa-undo"></i>&nbsp;&nbsp;重置</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        @if ( $grid->showTools() )
+        <div class="pull-left">
+            {!! $grid->renderHeaderTools() !!}
         </div>
+        @endif
+    </div>
+    @endif
 
+    {!! $grid->renderFilter() !!}
 
-    </form>
+    {!! $grid->renderHeader() !!}
+
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover" id="{{ $grid->tableID }}">
+            <thead>
+                <tr>
+                    @foreach($grid->visibleColumns() as $column)
+                    <th {!! $column->formatHtmlAttributes() !!}>{!! $column->getLabel() !!}{!! $column->renderHeader() !!}</th>
+                    @endforeach
+                </tr>
+            </thead>
+
+            @if ($grid->hasQuickCreate())
+                {!! $grid->renderQuickCreate() !!}
+            @endif
+
+            <tbody>
+
+                @if($grid->rows()->isEmpty() && $grid->showDefineEmptyPage())
+                    @include('admin::grid.empty-grid')
+                @endif
+
+                @foreach($grid->rows() as $row)
+                <tr {!! $row->getRowAttributes() !!}>
+                    @foreach($grid->visibleColumnNames() as $name)
+                    <td {!! $row->getColumnAttributes($name) !!}>
+                        {!! $row->column($name) !!}
+                    </td>
+                    @endforeach
+                </tr>
+                @endforeach
+            </tbody>
+
+            {!! $grid->renderTotalRow() !!}
+
+        </table>
+
+    </div>
+
+    {!! $grid->renderFooter() !!}
+    
+    <!-- /.box-body -->
 </div>

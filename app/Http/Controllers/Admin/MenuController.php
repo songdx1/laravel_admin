@@ -119,11 +119,6 @@ class MenuController extends Controller
                     'model'=>$model,
                 ]
             );
-        return $content
-            ->title(trans('admin.menu'))
-            ->breadcrumb(['text'=>'系统管理'],['text'=>trans('admin.menu')],['text'=>'编辑'])
-            ->description(trans('admin.edit'))
-            ->row($this->form()->edit($id));
     }
 
     /**
