@@ -47,7 +47,7 @@
 
             <tbody>
 
-                @foreach($rows as $row)
+                @foreach($lists as $row)
                 <tr>
                     <td class="column-__row_selector__">
                         <div class="icheckbox_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
@@ -101,8 +101,7 @@
     </div>
 
     <div class="box-footer clearfix">
-        
-        {!! $rows->links() !!}
+        @include('admin::paginator')
     </div>
     
     <!-- /.box-body -->
