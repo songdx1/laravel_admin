@@ -55,7 +55,12 @@ class LogController extends Controller
             $filter->like('path','请求路径');
             $filter->equal('ip');
         });
-
+        $rows = OperationLog::paginate(15);
+        // return $content
+        //     ->title($this->title)
+        //     ->breadcrumb(['text'=>$this->title])
+        //     ->description($this->description['index'] ?? trans('admin.list'))
+        //     ->body($grid);
         return $content
             ->title($this->title)
             ->breadcrumb(['text'=>$this->title])
@@ -63,11 +68,10 @@ class LogController extends Controller
             ->view('admin.log.index',
             [
                 'grid'=>$grid,
+                'rows'=>$rows,
+                'methodColors'=>OperationLog::$methodColors,
+                'paginator' => $rows,
             ]);
-            // ->view('admin.log.index',
-            // [
-            //     'grid'=>$grid,
-            // ]);
     }
 
     /**
