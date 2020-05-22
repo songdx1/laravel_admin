@@ -189,6 +189,24 @@
 </div>
 <script>
 $(function () {
+    $('.grid-select-all').iCheck({checkboxClass:'icheckbox_minimal-blue'}).on('ifChanged', function () { 
+        if (this.checked) {
+            $.admin.grid.select();
+            $('input.grid-row-checkbox').attr('checked',true);
+            $('div.icheckbox_minimal-blue').addClass('checked',true);
+            $('div.icheckbox_minimal-blue').attr('aria-disabled',true);
+            var selected = $('input.grid-row-checkbox').length;  
+            $('.grid-select-all-btn').show();
+            $('.grid-select-all-btn .selected').html("已选择 {n} 项".replace('{n}', selected));
+        } else {
+            $.admin.grid.unselect();
+            $('input.grid-row-checkbox').attr('checked',false)
+            $('div.icheckbox_minimal-blue').removeClass('checked',false);
+            $('div.icheckbox_minimal-blue').attr('aria-disabled',false);
+            $('.grid-select-all-btn').hide();
+        }
+    });
+
     $('.grid-row-checkbox').iCheck({checkboxClass:'icheckbox_minimal-blue'}).on('ifChanged', function () {    
         var id = $(this).data('id');
         if (this.checked) {
