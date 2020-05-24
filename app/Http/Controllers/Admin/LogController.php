@@ -25,38 +25,7 @@ class LogController extends Controller
      * @return Content
      */
     public function index(Content $content,Request $request)
-    {
-        $grid = new Grid(new OperationLog());
-        $grid->model()->orderBy('id', 'DESC');
-        $grid->column('id', 'ID')->sortable();
-        $grid->column('user.name', '用户');
-        $grid->column('method', '请求动作')->display(function ($method) {
-            $color = Arr::get(OperationLog::$methodColors, $method, 'grey');
-            return "<span class=\"badge bg-$color\">$method</span>";
-        });
-        $grid->column('path','请求路径')->label('info');
-        $grid->column('ip')->label('primary');
-        $grid->column('input','输入')->display(function ($input) {
-            $input = json_decode($input, true);
-            $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
-            if (empty($input)) {
-                return '<code>{}</code>';
-            }
-            return '<pre>'.json_encode($input, JSON_PRETTY_PRINT | JSON_HEX_TAG).'</pre>';
-        });
-        $grid->column('created_at', trans('admin.created_at'));
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
-            $actions->disableEdit();
-            $actions->disableView();
-        });
-        $grid->disableCreateButton();
-        $grid->filter(function (Grid\Filter $filter) {
-            $userModel = config('admin.database.users_model');
-            $filter->equal('user_id', '用户')->select($userModel::all()->pluck('name', 'id'));
-            $filter->equal('method','请求动作')->select(array_combine(OperationLog::$methods, OperationLog::$methods));
-            $filter->like('path','请求路径');
-            $filter->equal('ip');
-        });
+    {        
         $where = function ($query) use ($request) {
             if ($request->get('id')) {
                 $query->where('id', $request->get('id'));
@@ -75,21 +44,21 @@ class LogController extends Controller
             }
 
         };
+
         $lists = OperationLog::where(function ($query) use ($where) {
                 return $query->where($where);      
             })
             ->when($request->get('_export_') != 'all', function ($query) use ($request) {
-                    return $query->paginate($request->get('per_page'));
+                return $query->paginate($request->get('per_page'));
             });
-            
+
         if($request->get('_export_')){
-            return $this->export($lists);
+            if($request->get('_export_') == 'all'){
+                return $this->export($lists->get());
+            }else{
+                return $this->export($lists);
+            }
         }
-        // return $content
-        //     ->title($this->title)
-        //     ->breadcrumb(['text'=>$this->title])
-        //     ->description($this->description['index'] ?? trans('admin.list'))
-        //     ->body($grid);
 
         $userModel = config('admin.database.users_model');
         return $content
@@ -98,7 +67,6 @@ class LogController extends Controller
             ->description($this->description['index'] ?? trans('admin.list'))
             ->view('admin.log.index',
             [
-                'grid'=>$grid,
                 'lists'=>$lists,
                 'methodColors'=>OperationLog::$methodColors,
                 'users'=>$userModel::all()->pluck('name', 'id'),
@@ -132,6 +100,30 @@ class LogController extends Controller
 
     public function export($lists)
     {
-        dd($lists);
+        $filename = $this->title.date('Y-m-d').'.csv';
+
+        header("Content-Encoding:UTF-8");
+        header("Content-Type:text/csv;charset=UTF-8");
+        header('Content-Disposition:attachment; filename=".'.$filename.'"');
+        
+        $handle = fopen('php://output', 'w');
+
+        $titles = ['ID','用户','请求动作','请求路径','Ip','输入','创建时间'];
+        $records = [];
+        foreach($lists as $key => $val)
+        {
+            $records[] = [$val->id,$val->user->name,$val->method,$val->path,$val->ip,$val->input,$val->created_at];
+        }
+        // Add CSV headers
+        fputcsv($handle, $titles);            
+
+        foreach ($records as $record) {
+            fputcsv($handle, $record);
+        }            
+
+        // Close the output stream
+        fclose($handle);            
+
+        exit;
     }
 }

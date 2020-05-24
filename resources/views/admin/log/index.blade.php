@@ -24,7 +24,6 @@
                     <li><a href="{!! $lists->path() !!}?_export_=page%3A1" target="_blank">当前页</a></li>
                 </ul>
             </div>
-            {!! $grid->renderCreateButton() !!}
         </div>        
     </div>
 
