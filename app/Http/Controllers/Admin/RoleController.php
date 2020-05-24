@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -28,26 +27,6 @@ class RoleController extends Controller
      */
     public function index(Content $content,Request $request)
     {
-        $grid = new Grid(new Role);
-        $grid->column('id', 'ID')->sortable();
-        $grid->column('slug', trans('admin.slug'));
-        $grid->column('name', trans('admin.name'));
-        $grid->column('permissions', trans('admin.permission'))->pluck('name')->label();
-        $grid->column('created_at', trans('admin.created_at'));
-        $grid->column('updated_at', trans('admin.updated_at'));
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
-            if ($actions->row->slug == 'administrator') {
-                $actions->disableDelete();
-            }
-        });
-        $grid->disableBatchActions();
-
-        // return $content
-        //     ->title($this->title())
-        //     ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
-        //     ->description($this->description['index'] ?? trans('admin.list'))
-        //     ->body($grid);
-
         $where = function ($query) use ($request) {
             if ($request->get('id')) {
                 $query->where('id', $request->get('id'));

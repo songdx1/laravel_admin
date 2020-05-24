@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -27,29 +26,45 @@ class UserController extends Controller
      *
      * @return Content
      */
-    public function index(Content $content)
+    public function index(Content $content,Request $request)
     {
         $userModel = config('admin.database.users_model');
 
-        $grid = new Grid(new $userModel());
-        $grid->column('id', 'ID')->sortable();
-        $grid->column('username', trans('admin.username'));
-        $grid->column('name', trans('admin.name'));
-        $grid->column('roles', trans('admin.roles'))->pluck('name')->label();
-        $grid->column('created_at', trans('admin.created_at'));
-        $grid->column('updated_at', trans('admin.updated_at'));
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
-            if ($actions->getKey() == 1) {
-                $actions->disableDelete();
+        $where = function ($query) use ($request) {
+            if ($request->get('id')) {
+                $query->where('id', $request->get('id'));
             }
-        });
-        $grid->disableBatchActions();
+            if ($request->get('username')) {
+                $query->where('username', 'like', '%'.$request->get('username').'%');
+            }
+            if ($request->get('name')) {
+                $query->where('name',  'like', '%'.$request->get('name').'%');
+            }
+        };
 
+        $lists = $userModel::where(function ($query) use ($where) {
+                return $query->where($where);      
+            })
+            ->when($request->get('_export_') != 'all', function ($query) use ($request) {
+                return $query->paginate($request->get('per_page'));
+            });
+
+        if($request->get('_export_')){
+            if($request->get('_export_') == 'all'){
+                return $this->export($lists->get());
+            }else{
+                return $this->export($lists);
+            }
+        }
+        
         return $content
             ->title($this->title())
-            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
+            ->breadcrumb(['text'=>$this->title()])
             ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($grid);
+            ->view('admin.user.index',
+            [
+                'lists'=>$lists,
+            ]);
     }
 
     /**
@@ -223,5 +238,35 @@ class UserController extends Controller
         $userModel = config('admin.database.users_model');
         $user = $userModel::findOrFail($id)->delete();
         return redirect()->route('admin.auth.users.index', $user);
+    }
+
+    //导出
+    public function export($lists)
+    {
+        $filename = $this->title().date('Y-m-d').'.csv';
+
+        header("Content-Encoding:UTF-8");
+        header("Content-Type:text/csv;charset=UTF-8");
+        header('Content-Disposition:attachment; filename=".'.$filename.'"');
+        
+        $handle = fopen('php://output', 'w');
+
+        $titles = ['ID','用户名','名称','角色','创建时间','更新时间'];
+        $records = [];
+        foreach($lists as $key => $val)
+        {
+            $records[] = [$val->id,$val->username,$val->name, implode(',', $val->roles->pluck('name')->toArray() ?: []),$val->created_at,$val->updated_at];
+        }
+        // Add CSV headers
+        fputcsv($handle, $titles);            
+
+        foreach ($records as $record) {
+            fputcsv($handle, $record);
+        }            
+
+        // Close the output stream
+        fclose($handle);            
+
+        exit;
     }
 }

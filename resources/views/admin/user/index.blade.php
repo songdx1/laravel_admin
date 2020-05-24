@@ -27,13 +27,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label"> 标识</label>
+                                <label class="col-sm-2 control-label"> 用户名</label>
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-addon">
                                         <i class="fa fa-pencil"></i>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="标识" name="slug" value="{{ request()->get('slug') }}">
+                                        <input type="text" class="form-control" placeholder="用户名" name="username" value="{{ request()->get('username') }}">
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                     <th>ID</th>
                     <th>用户名</th>
                     <th>名称</th>
-                    <th>权限</th>
+                    <th>角色</th>
                     <th>创建时间</th>
                     <th>更新时间</th>
                     <th class="column-__actions__">操作</th>
@@ -102,7 +102,7 @@
                         {{ $list->name }}
                     </td>
                     <td>
-                        @foreach($list->permissions as $key => $value)
+                        @foreach($list->roles as $key => $value)
                             <span class="label label-success">{{ $value->name }}</span>
                         @endforeach
                     </td>
@@ -114,11 +114,11 @@
                     </td>
                     <td class="column-__actions__">
                         @if($list->id != 1)
-                        <a href="{{ route('admin.auth.roles.show',$list) }}" class="grid-row-view">
+                        <a href="{{ route('admin.auth.users.show',$list) }}" class="grid-row-view">
                             <i class="fa fa-eye"></i>
                         </a>
                         @endif
-                        <a href="{{ route('admin.auth.roles.edit',$list) }}" class="grid-row-edit">
+                        <a href="{{ route('admin.auth.users.edit',$list) }}" class="grid-row-edit">
                             <i class="fa fa-edit"></i>
                         </a>
                         <a href="javascript:void(0);" data-id="{{ $list->id }}" class="grid-row-delete">
