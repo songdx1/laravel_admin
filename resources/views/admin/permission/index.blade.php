@@ -1,11 +1,8 @@
-<link rel="stylesheet" href="/vendor/laravel-admin/AdminLTE/plugins/iCheck/all.css">
-<script src="/vendor/laravel-admin/AdminLTE/plugins/iCheck/icheck.min.js"></script>
-<script src="/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js"></script>
 <div class="box">
 
     <div class="box-header with-border">
         <div class="pull-left">
-            @include('admin::renderHeaderTools',['batchActions'=>['delete'=>1]])
+            @include('admin::renderHeaderTools')
         </div>
         <div class="pull-right">
             <div class="btn-group pull-right" style="margin-right: 10px">
@@ -40,46 +37,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label"> 用户</label>
-                                <div class="col-sm-8">
-                                <select class="form-control user_id" name="user_id" style="width: 100%;">
-                                    <option></option>
-                                    @foreach($users as $select => $option)
-                                        <option value="{{$select}}" {{ (string)$select === request()->get('user_id') ?'selected':'' }}>{{$option}}</option>
-                                    @endforeach
-                                </select>                                    
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> 请求动作</label>
-                                <div class="col-sm-8">
-                                <select class="form-control method" name="method" style="width: 100%;">
-                                    <option></option>
-                                    @foreach($methods as $select => $option)
-                                        <option value="{{$select}}" {{ (string)$select === request()->get('method') ?'selected':'' }}>{{$option}}</option>
-                                    @endforeach
-                                </select>                                    
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> 请求路径</label>
+                                <label class="col-sm-2 control-label"> 标识</label>
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-addon">
                                         <i class="fa fa-pencil"></i>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="请求路径" name="path" value="{{ request()->get('path') }}">
+                                        <input type="text" class="form-control" placeholder="标识" name="slug" value="{{ request()->get('slug') }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label"> Ip</label>
+                                <label class="col-sm-2 control-label"> 名称</label>
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-addon">
                                             <i class="fa fa-pencil"></i>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Ip" name="ip" value="{{ request()->get('ip') }}">
+                                        <input type="text" class="form-control" placeholder="名称" name="name" value="{{ request()->get('name') }}">
                                     </div>
                                 </div>
                             </div>
@@ -113,18 +88,12 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th class="column-__row_selector__">
-                        <div class="icheckbox_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                            <input type="checkbox" class="grid-select-all">
-                        </div>
-                    </th>
-                    <th class="column-id">ID</th>
-                    <th class="column-user-name">用户</th>
-                    <th class="column-method">请求动作</th>
-                    <th class="column-path">请求路径</th>
-                    <th class="column-ip">Ip</th>
-                    <th class="column-input">输入</th>
-                    <th class="column-created_at">创建时间</th>
+                    <th>ID</th>
+                    <th>标识</th>
+                    <th>名称</th>
+                    <th>路由</th>
+                    <th>创建时间</th>
+                    <th>更新时间</th>
                     <th class="column-__actions__">操作</th>
                 </tr>
             </thead>
@@ -133,45 +102,47 @@
 
                 @foreach($lists as $list)
                 <tr>
-                    <td class="column-__row_selector__">
-                        <div class="icheckbox_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                            <input type="checkbox" class="grid-row-checkbox" data-id="{{ $list->id }}">                            
-                        </div>
-                    </td>
                     <td>
                         {{ $list->id }}
                     </td>
                     <td>
-                        {{ $list->user->name }}
+                        {{ $list->slug }}
+                    </td>
+                    <td>
+                        {{ $list->name }}
                     </td>
                     <td>
                         @php
-                        $color = Arr::get($methodColors, $list->method, 'grey');
-                        @endphp
-                        <span class="badge bg-{!!$color!!}">{{ $list->method }}</span>
-                    </td>
-                    <td>
-                        <span class="label label-info">{{ $list->path }}</span>
-                    </td>
-                    <td>
-                        <span class="label label-primary">{{ $list->ip }}</span>
-                    </td>
-                    <td>
-                        @php
-                        $input = json_decode($list->input, true);
-                        $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
-                        if (empty($input)) {
-                            $input = '<code>{}</code>';
-                        }else{
-                            $input = '<pre>'.json_encode($input, JSON_PRETTY_PRINT | JSON_HEX_TAG).'</pre>';
+                        $path = $list->path;
+                        $method = $list->http_method ?: ['ANY'];
+                        if (Str::contains($path, ':')) {
+                            list($method, $path) = explode(':', $path);
+                            $method = explode(',', $method);
+                        }
+                        $method = collect($method)->map(function ($name) {
+                            return strtoupper($name);
+                        })->map(function ($name) {
+                            return "<span class='label label-primary'>{$name}</span>";
+                        })->implode('&nbsp;');
+                        if (!empty(config('admin.route.prefix'))) {
+                            $path = '/'.trim(config('admin.route.prefix'), '/').$path;
                         }
                         @endphp
-                        {!! $input !!}
+                        <div style='margin-bottom: 5px;'>{!! $method !!}<code>{!! $path !!}</code></div>
                     </td>
                     <td>
                         {{ $list->created_at }}
                     </td>
+                    <td>
+                        {{ $list->updated_at }}
+                    </td>
                     <td class="column-__actions__">
+                        <a href="{{ route('admin.auth.menu.show',$list) }}" class="grid-row-view">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="{{ route('admin.auth.menu.edit',$list) }}" class="grid-row-edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
                         <a href="javascript:void(0);" data-id="{{ $list->id }}" class="grid-row-delete">
                             <i class="fa fa-trash"></i>
                         </a>
@@ -230,16 +201,5 @@
             }
         });
     });
-
-    (function ($){
-        $(".user_id").select2({
-            placeholder: {"id":"","text":"选择"},
-            "allowClear":true
-        });
-        $(".method").select2({
-            placeholder: {"id":"","text":"选择"},
-            "allowClear":true
-        });
-    })(jQuery);
 
 </script>

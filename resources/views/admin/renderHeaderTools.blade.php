@@ -1,3 +1,4 @@
+@if(isset($batchActions['delete']))
 <div class="btn-group grid-select-all-btn" style="margin-right: 5px; display: none;">
     <a class="btn btn-sm btn-default hidden-xs"><span class="selected">已选择 0 项</span></a>
     <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -8,6 +9,7 @@
         <li><a href="#" class="grid-batch-0">批量删除 </a></li>
     </ul>
 </div>
+@endif
 
 <div class="btn-group" style="margin-right: 5px" data-toggle="buttons">
     <label class="btn btn-sm btn-dropbox filter-btn" title="筛选">
@@ -17,6 +19,7 @@
 
 <script>
 $(function () {    
+    @if(isset($batchActions['delete']))
     $('.grid-select-all').iCheck({checkboxClass:'icheckbox_minimal-blue'}).on('ifChanged', function (e) { 
         if (e.target.checked) {
             $('input.grid-row-checkbox').iCheck("check");
@@ -91,6 +94,7 @@ $(function () {
             }
         });
     });
+    @endif
 
     $('.filter-btn').unbind('click');
     $('.filter-btn').click(function (e) {

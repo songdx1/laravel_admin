@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
 use App\Models\OperationLog;
-use Encore\Admin\Grid;
 use Encore\Admin\Paginator;
 use Illuminate\Support\Arr;
 use Encore\Admin\Layout\Content;
@@ -37,7 +36,7 @@ class LogController extends Controller
                 $query->where('method', $request->get('method'));
             }
             if ($request->get('path')) {
-                $query->where('path', 'like', $request->get('path'));
+                $query->where('path', 'like', '%'.$request->get('path').'%');
             }
             if ($request->get('ip')) {
                 $query->where('ip', $request->get('ip'));
@@ -98,6 +97,7 @@ class LogController extends Controller
         return response()->json($data);
     }
 
+    //导出
     public function export($lists)
     {
         $filename = $this->title.date('Y-m-d').'.csv';

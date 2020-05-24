@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
-use Encore\Admin\Grid;
 use Illuminate\Support\Str;
 use Encore\Admin\Layout\Content;
 use App\Models\Permission;
@@ -26,39 +25,43 @@ class PermissionController extends Controller
      *
      * @return Content
      */
-    public function index(Content $content)
+    public function index(Content $content,Request $request)
     {
-        $grid = new Grid(new Permission);
-        $grid->column('id', 'ID')->sortable();
-        $grid->column('slug', trans('admin.slug'));
-        $grid->column('name', trans('admin.name'));
-        $grid->column('http_path', trans('admin.route'))->display(function ($path) {
-            return collect(explode("\n", $path))->map(function ($path) {
-                $method = $this->http_method ?: ['ANY'];
-                if (Str::contains($path, ':')) {
-                    list($method, $path) = explode(':', $path);
-                    $method = explode(',', $method);
-                }
-                $method = collect($method)->map(function ($name) {
-                    return strtoupper($name);
-                })->map(function ($name) {
-                    return "<span class='label label-primary'>{$name}</span>";
-                })->implode('&nbsp;');
-                if (!empty(config('admin.route.prefix'))) {
-                    $path = '/'.trim(config('admin.route.prefix'), '/').$path;
-                }
-                return "<div style='margin-bottom: 5px;'>$method<code>$path</code></div>";
-            })->implode('');
-        });
-        $grid->column('created_at', trans('admin.created_at'));
-        $grid->column('updated_at', trans('admin.updated_at'));
-        $grid->disableBatchActions();
+        $where = function ($query) use ($request) {
+            if ($request->get('id')) {
+                $query->where('id', $request->get('id'));
+            }
+            if ($request->get('slug')) {
+                $query->where('slug', 'like', '%'.$request->get('slug').'%');
+            }
+            if ($request->get('name')) {
+                $query->where('name', 'like', '%'.$request->get('name').'%');
+            }
+        };
 
+        $lists = Permission::where(function ($query) use ($where) {
+                return $query->where($where);      
+            })
+            ->when($request->get('_export_') != 'all', function ($query) use ($request) {
+                return $query->paginate($request->get('per_page'));
+            });
+
+        if($request->get('_export_')){
+            if($request->get('_export_') == 'all'){
+                return $this->export($lists->get());
+            }else{
+                return $this->export($lists);
+            }
+        }
+        
         return $content
             ->title($this->title())
-            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
+            ->breadcrumb(['text'=>$this->title()])
             ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($grid);
+            ->view('admin.permission.index',
+            [
+                'lists'=>$lists,
+            ]);
     }
 
     /**
@@ -208,5 +211,35 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrFail($id)->delete();
         return redirect()->route('admin.auth.permissions.index', $permission);
+    }
+
+    //导出
+    public function export($lists)
+    {
+        $filename = $this->title().date('Y-m-d').'.csv';
+
+        header("Content-Encoding:UTF-8");
+        header("Content-Type:text/csv;charset=UTF-8");
+        header('Content-Disposition:attachment; filename=".'.$filename.'"');
+        
+        $handle = fopen('php://output', 'w');
+
+        $titles = ['ID','标识','名称','请求动作','请求路径','创建时间','更新时间'];
+        $records = [];
+        foreach($lists as $key => $val)
+        {
+            $records[] = [$val->id,$val->slug,$val->name, implode(',', $val->http_method ?: ['ANY']),$val->http_path,$val->created_at,$val->updated_at];
+        }
+        // Add CSV headers
+        fputcsv($handle, $titles);            
+
+        foreach ($records as $record) {
+            fputcsv($handle, $record);
+        }            
+
+        // Close the output stream
+        fclose($handle);            
+
+        exit;
     }
 }
