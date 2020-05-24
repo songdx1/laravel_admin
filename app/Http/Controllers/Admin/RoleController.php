@@ -26,7 +26,7 @@ class RoleController extends Controller
      *
      * @return Content
      */
-    public function index(Content $content)
+    public function index(Content $content,Request $request)
     {
         $grid = new Grid(new Role);
         $grid->column('id', 'ID')->sortable();
@@ -42,11 +42,47 @@ class RoleController extends Controller
         });
         $grid->disableBatchActions();
 
+        // return $content
+        //     ->title($this->title())
+        //     ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
+        //     ->description($this->description['index'] ?? trans('admin.list'))
+        //     ->body($grid);
+
+        $where = function ($query) use ($request) {
+            if ($request->get('id')) {
+                $query->where('id', $request->get('id'));
+            }
+            if ($request->get('slug')) {
+                $query->where('slug', $request->get('slug'));
+            }
+            if ($request->get('name')) {
+                $query->where('name', $request->get('name'));
+            }
+        };
+
+        $lists = Role::where(function ($query) use ($where) {
+                return $query->where($where);      
+            })
+            ->when($request->get('_export_') != 'all', function ($query) use ($request) {
+                return $query->paginate($request->get('per_page'));
+            });
+
+        if($request->get('_export_')){
+            if($request->get('_export_') == 'all'){
+                return $this->export($lists->get());
+            }else{
+                return $this->export($lists);
+            }
+        }
+        
         return $content
             ->title($this->title())
-            ->breadcrumb(['text'=>'系统管理'],['text'=>$this->title()])
+            ->breadcrumb(['text'=>$this->title()])
             ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($grid);
+            ->view('admin.role.index',
+            [
+                'lists'=>$lists,
+            ]);
     }
 
     /**
@@ -183,5 +219,35 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id)->delete();
         return redirect()->route('admin.auth.roles.index', $role);
+    }
+
+    //导出
+    public function export($lists)
+    {
+        $filename = $this->title().date('Y-m-d').'.csv';
+
+        header("Content-Encoding:UTF-8");
+        header("Content-Type:text/csv;charset=UTF-8");
+        header('Content-Disposition:attachment; filename=".'.$filename.'"');
+        
+        $handle = fopen('php://output', 'w');
+
+        $titles = ['ID','标识','名称','权限','创建时间','更新时间'];
+        $records = [];
+        foreach($lists as $key => $val)
+        {
+            $records[] = [$val->id,$val->slug,$val->name, implode(',', $val->permissions->pluck('name')->toArray() ?: []),$val->created_at,$val->updated_at];
+        }
+        // Add CSV headers
+        fputcsv($handle, $titles);            
+
+        foreach ($records as $record) {
+            fputcsv($handle, $record);
+        }            
+
+        // Close the output stream
+        fclose($handle);            
+
+        exit;
     }
 }

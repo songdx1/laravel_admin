@@ -81,7 +81,7 @@
                     <th>ID</th>
                     <th>标识</th>
                     <th>名称</th>
-                    <th>路由</th>
+                    <th>权限</th>
                     <th>创建时间</th>
                     <th>更新时间</th>
                     <th class="column-__actions__">操作</th>
@@ -102,23 +102,9 @@
                         {{ $list->name }}
                     </td>
                     <td>
-                        @php
-                        $path = $list->path;
-                        $method = $list->http_method ?: ['ANY'];
-                        if (Str::contains($path, ':')) {
-                            list($method, $path) = explode(':', $path);
-                            $method = explode(',', $method);
-                        }
-                        $method = collect($method)->map(function ($name) {
-                            return strtoupper($name);
-                        })->map(function ($name) {
-                            return "<span class='label label-primary'>{$name}</span>";
-                        })->implode('&nbsp;');
-                        if (!empty(config('admin.route.prefix'))) {
-                            $path = '/'.trim(config('admin.route.prefix'), '/').$path;
-                        }
-                        @endphp
-                        <div style='margin-bottom: 5px;'>{!! $method !!}<code>{!! $path !!}</code></div>
+                        @foreach($list->permissions as $key => $value)
+                            <span class="label label-success">{{ $value->name }}</span>
+                        @endforeach
                     </td>
                     <td>
                         {{ $list->created_at }}
@@ -127,10 +113,12 @@
                         {{ $list->updated_at }}
                     </td>
                     <td class="column-__actions__">
-                        <a href="{{ route('admin.auth.permissions.show',$list) }}" class="grid-row-view">
+                        @if($list->slug != 'administrator')
+                        <a href="{{ route('admin.auth.roles.show',$list) }}" class="grid-row-view">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <a href="{{ route('admin.auth.permissions.edit',$list) }}" class="grid-row-edit">
+                        @endif
+                        <a href="{{ route('admin.auth.roles.edit',$list) }}" class="grid-row-edit">
                             <i class="fa fa-edit"></i>
                         </a>
                         <a href="javascript:void(0);" data-id="{{ $list->id }}" class="grid-row-delete">
