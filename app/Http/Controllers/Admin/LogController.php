@@ -78,7 +78,13 @@ class LogController extends Controller
         $lists = OperationLog::where(function ($query) use ($where) {
                 return $query->where($where);      
             })
-            ->paginate(request()->get('per_page'));
+            ->when($request->get('_export_') != 'all', function ($query) use ($request) {
+                    return $query->paginate($request->get('per_page'));
+            });
+            
+        if($request->get('_export_')){
+            return $this->export($lists);
+        }
         // return $content
         //     ->title($this->title)
         //     ->breadcrumb(['text'=>$this->title])
@@ -122,5 +128,10 @@ class LogController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    public function export($lists)
+    {
+        dd($lists);
     }
 }
