@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
@@ -10,7 +9,6 @@ use Illuminate\Support\Str;
 
 class Permission extends Model
 {
-    use DefaultDatetimeFormat;
 
     /**
      * @var array
