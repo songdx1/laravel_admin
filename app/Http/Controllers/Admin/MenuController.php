@@ -195,7 +195,6 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
         $menu = Menu::findOrFail($id)->delete();
         return redirect()->route('admin.auth.menu.index', $menu);
     }

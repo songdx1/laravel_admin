@@ -10,7 +10,6 @@ use Encore\Admin\Form\HasHooks;
 use Encore\Admin\Form\Layout\Layout;
 use Encore\Admin\Form\Row;
 use Encore\Admin\Form\Tab;
-use Encore\Admin\Traits\ShouldSnakeAttributes;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
@@ -26,7 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Form implements Renderable
 {
-    use ShouldSnakeAttributes;
     /**
      * Remove flag in `has many` form.
      */
