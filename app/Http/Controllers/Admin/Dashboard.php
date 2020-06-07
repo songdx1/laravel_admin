@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Encore\Admin\Admin;
+use App\Libraries\Admin;
 use Illuminate\Support\Arr;
 
 class Dashboard

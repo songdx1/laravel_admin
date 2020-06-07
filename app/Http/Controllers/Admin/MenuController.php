@@ -6,7 +6,6 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use App\Libraries\Tree;
-use Encore\Admin\Widgets\Box;
 use Illuminate\Routing\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;

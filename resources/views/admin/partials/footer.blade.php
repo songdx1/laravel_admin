@@ -9,7 +9,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
 
         @if(config('admin.show_version'))
-        <strong>Version</strong>&nbsp;&nbsp; {!! \Encore\Admin\Admin::VERSION !!}
+        <strong>Version</strong>&nbsp;&nbsp; 1.7.1
         @endif
 
     </div>

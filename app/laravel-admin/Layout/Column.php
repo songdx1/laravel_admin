@@ -2,7 +2,6 @@
 
 namespace Encore\Admin\Layout;
 
-use Encore\Admin\Grid;
 use Illuminate\Contracts\Support\Renderable;
 
 class Column implements Buildable

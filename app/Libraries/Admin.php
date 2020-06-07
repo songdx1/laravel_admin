@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Admin;
+namespace App\Libraries;
 
 use Closure;
 use App\Models\Menu;
