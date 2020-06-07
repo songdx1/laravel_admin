@@ -1,10 +1,11 @@
 <?php
 
-namespace Encore\Admin;
+namespace App\Libraries;
 
 use Closure;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Model;
+use App\Facades\Admin;
 
 class Tree implements Renderable
 {
