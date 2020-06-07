@@ -41,7 +41,7 @@
             "database/factories"
         ],
         "files": [
-            "app/laravel-admin/helpers.php"
+            "app/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {
