@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Encore\Admin\Layout\Column;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Layout\Row;
+use App\Libraries\Content;
+use App\Libraries\Row;
 use App\Libraries\Tree;
 use Illuminate\Routing\Controller;
 use App\Models\Menu;

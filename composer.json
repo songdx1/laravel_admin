@@ -33,8 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Encore\\Admin\\": "app/laravel-admin/"
+            "App\\": "app/"
         },
         "classmap": [
             "database/seeds",

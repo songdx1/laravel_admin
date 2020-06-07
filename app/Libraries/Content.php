@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Admin\Layout;
+namespace App\Libraries;
 
 use Closure;
 use App\Facades\Admin;

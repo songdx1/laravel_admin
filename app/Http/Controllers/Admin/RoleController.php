@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Encore\Admin\Layout\Content;
+use App\Libraries\Content;
 use App\Models\Role;
 use Illuminate\Http\Request;
 

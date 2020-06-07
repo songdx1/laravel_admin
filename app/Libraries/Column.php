@@ -1,10 +1,10 @@
 <?php
 
-namespace Encore\Admin\Layout;
+namespace App\Libraries;
 
 use Illuminate\Contracts\Support\Renderable;
 
-class Column implements Buildable
+class Column
 {
     /**
      * grid system prefix width.

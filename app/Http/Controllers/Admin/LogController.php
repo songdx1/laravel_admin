@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Routing\Controller;
 use App\Models\OperationLog;
 use Illuminate\Support\Arr;
-use Encore\Admin\Layout\Content;
+use App\Libraries\Content;
 use Illuminate\Http\Request;
 
 class LogController extends Controller

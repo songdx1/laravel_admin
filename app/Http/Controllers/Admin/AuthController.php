@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Facades\Admin;
-use Encore\Admin\Layout\Content;
+use App\Libraries\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Lang;
