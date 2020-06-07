@@ -79,7 +79,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>用户名</th>
+                    <th>标识</th>
                     <th>名称</th>
                     <th>权限</th>
                     <th>创建时间</th>
@@ -96,7 +96,7 @@
                         {{ $list->id }}
                     </td>
                     <td>
-                        {{ $list->username }}
+                        {{ $list->slug }}
                     </td>
                     <td>
                         {{ $list->name }}

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Facade;
  * Class Admin.
  *
  * @method static \Encore\Admin\Grid grid($model, \Closure $callable)
- * @method static \Encore\Admin\Form form($model, \Closure $callable)
  * @method static \Encore\Admin\Show show($model, $callable = null)
  * @method static \Encore\Admin\Tree tree($model, \Closure $callable = null)
  * @method static \Encore\Admin\Layout\Content content(\Closure $callable = null)

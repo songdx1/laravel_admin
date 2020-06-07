@@ -105,6 +105,13 @@ class Admin
     public static $html = [];
 
     /**
+     * Collected field assets.
+     *
+     * @var array
+     */
+    protected static $collectedAssets = [];
+
+    /**
      * Returns the long version of Laravel-admin.
      *
      * @return string The long application version
@@ -377,7 +384,7 @@ class Admin
      */
     protected function addAdminAssets()
     {
-        $assets = Form::collectFieldAssets();
+        $assets = $this->collectFieldAssets();
 
         self::css($assets['css']);
         self::js($assets['js']);
@@ -642,4 +649,36 @@ class Admin
         'vendor/laravel-admin/sweetalert2/dist/sweetalert2.min.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin.js',
     ];
+
+    /**
+     * Collect assets required by registered field.
+     *
+     * @return array
+     */
+    public function collectFieldAssets(): array
+    {
+        if (!empty(static::$collectedAssets)) {
+            return static::$collectedAssets;
+        }
+
+        $css = collect();
+        $js = collect();
+
+        $css->push([
+            '/vendor/laravel-admin/AdminLTE/plugins/iCheck/all.css',
+            '/vendor/laravel-admin/bootstrap-fileinput/css/fileinput.min.css?v=4.5.2',
+            '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.min.css',
+        ]);
+        $js->push([
+            '/vendor/laravel-admin/AdminLTE/plugins/iCheck/icheck.min.js',
+            '/vendor/laravel-admin/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js',
+            '/vendor/laravel-admin/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2',
+            '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js',
+        ]);
+
+        return static::$collectedAssets = [
+            'css' => $css->flatten()->unique()->filter()->toArray(),
+            'js'  => $js->flatten()->unique()->filter()->toArray(),
+        ];
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Facades\Admin;
-use Encore\Admin\Form;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

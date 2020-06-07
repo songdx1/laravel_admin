@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Encore\Admin\Form;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
