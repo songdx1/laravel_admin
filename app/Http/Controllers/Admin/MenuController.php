@@ -16,7 +16,6 @@ use App\Facades\Admin;
 
 class MenuController extends Controller
 {
-    use Tools;
 
     /**
      * Index interface.
