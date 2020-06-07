@@ -40,7 +40,7 @@ class Permission
         if (!Admin::user()->allPermissions()->first(function ($permission) use ($request) {
             return $permission->shouldPassThrough($request);
         })) {
-            Checker::error();
+            $this->error();
         }
 
         return $next($request);
@@ -98,5 +98,18 @@ class Permission
 
                 return $request->is($except);
             });
+    }
+
+    /**
+     * Send error response page.
+     */
+    public static function error()
+    {
+        $response = response(Admin::content()->withError(trans('admin.deny')));
+
+        if (!request()->pjax() && request()->ajax()) {
+            abort(403, trans('admin.deny'));
+        }
+
     }
 }
