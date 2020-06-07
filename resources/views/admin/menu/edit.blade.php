@@ -64,7 +64,7 @@
                     <div class="col-sm-8">        
                         <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>            
-                            <input type="text" id="uri" name="uri" value="" class="form-control uri" placeholder="输入 路径">            
+                            <input type="text" id="uri" name="uri" value="{{ $model->uri }}" class="form-control uri" placeholder="输入 路径">            
                         </div>        
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="col-sm-8">
                         <select class="form-control roles" style="width: 100%;" name="roles[]" multiple="multiple" data-placeholder="输入 角色" aria-hidden = "true" >
                             @foreach($roles as $select => $option)
-                            <option value="{{$select}}" {{  in_array($select, $roles ) ?'selected':'' }}>{{$option}}</option>
+                            <option value="{{$select}}" {{  in_array($select, $model->roles()->pluck('id')->toArray() ) ?'selected':'' }}>{{$option}}</option>
                             @endforeach
                         </select>
                     </div>

@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Facades\Admin;
 
 class MenuController extends Controller
 {
@@ -80,11 +81,9 @@ class MenuController extends Controller
     protected function createView()
     {
         $roleModel = config('admin.database.roles_model');
-        $tools = new \Encore\Admin\Tools(new Menu);
         return view(
             'admin.menu.create',
             [
-                'tools'=>$tools->renderList(),
                 'menuOptions'=>Menu::selectOptions(),
                 'roles'=>$roleModel::all()->pluck('name', 'id'),
             ]
@@ -148,8 +147,8 @@ class MenuController extends Controller
 
         DB::beginTransaction();
         try{
+            $menu->roles()->sync($request->roles);
             $menu->save();
-            $menu->permissions()->sync($request->permissions);
             DB::commit();
         }catch(\Exception $e){
             $e->getMessage();
@@ -175,8 +174,8 @@ class MenuController extends Controller
 
         DB::beginTransaction();
         try{
-            $menu->save();
             $menu->roles()->sync($request->roles);
+            $menu->save();
             DB::commit();
         }catch(\Exception $e){
             $e->getMessage();

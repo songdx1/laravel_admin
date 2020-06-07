@@ -4,10 +4,6 @@
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">创建</h3>
-
-        <div class="box-tools">
-            {!! $tools !!}
-        </div>
     </div>
     <!-- /.box-header -->
     <!-- form start -->
