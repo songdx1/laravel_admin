@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Admin;
+namespace App\Libraries;
 
 use App\Facades\Admin;
 use Illuminate\Contracts\Support\Htmlable;

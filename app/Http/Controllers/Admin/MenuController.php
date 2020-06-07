@@ -104,7 +104,7 @@ class MenuController extends Controller
         $roleModel = config('admin.database.roles_model');
         $permissionModel = config('admin.database.permissions_model');
         $model = Menu::findOrFail($id);
-        $tools = new \Encore\Admin\Tools($model,'menu');
+        $tools = new \App\Libraries\Tools($model,'menu');
 
         return $content
             ->title('菜单')

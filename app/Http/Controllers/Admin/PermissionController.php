@@ -92,7 +92,7 @@ class PermissionController extends Controller
         }
         $model->routes = "<div style='margin-bottom: 5px;'>$method<code>$path</code></div>";
         
-        $tools = new \Encore\Admin\Tools($model);
+        $tools = new \App\Libraries\Tools($model);
 
         return $content
             ->title($this->title())
@@ -112,7 +112,7 @@ class PermissionController extends Controller
     public function edit($id, Content $content)
     {
         $model = Permission::findOrFail($id);
-        $tools = new \Encore\Admin\Tools($model);
+        $tools = new \App\Libraries\Tools($model);
 
         return $content
             ->title($this->title())
@@ -137,7 +137,7 @@ class PermissionController extends Controller
      */
     public function create(Content $content)
     {
-        $tools = new \Encore\Admin\Tools(new Permission);
+        $tools = new \App\Libraries\Tools(new Permission);
 
         return $content
             ->title($this->title())
