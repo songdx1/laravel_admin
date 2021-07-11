@@ -276,7 +276,6 @@ $('.{$class}-delete').unbind('click').click(function() {
 });
 
 SCRIPT;
-        \Encore\Admin\Admin::script($script);
 
         return <<<HTML
 <div class="btn-group pull-right" style="margin-right: 5px">
