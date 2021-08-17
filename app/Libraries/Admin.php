@@ -77,12 +77,12 @@ class Admin
     /**
      * @var string
      */
-    public static $manifest = 'vendor/laravel-admin/minify-manifest.json';
+    public static $manifest = 'vendor/minify-manifest.json';
 
     /**
      * @var string
      */
-    public static $jQuery = 'vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js';
+    public static $jQuery = 'vendor/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js';
 
     /**
      * @var array
@@ -532,7 +532,7 @@ class Admin
 
         $skin = config('admin.skin', 'skin-blue-light');
 
-        array_unshift(static::$baseCss, "vendor/laravel-admin/AdminLTE/dist/css/skins/{$skin}.min.css");
+        array_unshift(static::$baseCss, "vendor/admin-lte/dist/css/skins/{$skin}.min.css");
 
         return static::$baseCss;
     }
@@ -541,16 +541,16 @@ class Admin
      * @var array
      */
     public static $baseCss = [
-        'vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css',
-        'vendor/laravel-admin/font-awesome/css/font-awesome.min.css',
-        'vendor/laravel-admin/laravel-admin/laravel-admin.css',
-        'vendor/laravel-admin/nprogress/nprogress.css',
-        'vendor/laravel-admin/sweetalert2/dist/sweetalert2.css',
-        'vendor/laravel-admin/nestable/nestable.css',
-        'vendor/laravel-admin/toastr/build/toastr.min.css',
-        'vendor/laravel-admin/bootstrap3-editable/css/bootstrap-editable.css',
-        'vendor/laravel-admin/google-fonts/fonts.css',
-        'vendor/laravel-admin/AdminLTE/dist/css/AdminLTE.min.css',
+        'vendor/admin-lte/plugins/bootstrap/css/bootstrap.min.css',
+        'vendor/font-awesome/css/font-awesome.min.css',
+        'vendor/laravel-admin/laravel-admin.css',
+        'vendor/nprogress/nprogress.css',
+        'vendor/admin-lte/plugins/sweetalert2/sweetalert2.css',
+        'vendor/nestable/nestable.css',
+        'vendor/toastr/build/toastr.min.css',
+        'vendor/bootstrap3-editable/css/bootstrap-editable.css',
+        'vendor/google-fonts/fonts.css',
+        'vendor/admin-lte/dist/css/AdminLTE.min.css',
     ];
 
     /**
@@ -638,16 +638,16 @@ class Admin
      * @var array
      */
     public static $baseJs = [
-        'vendor/laravel-admin/AdminLTE/bootstrap/js/bootstrap.min.js',
-        'vendor/laravel-admin/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js',
-        'vendor/laravel-admin/AdminLTE/dist/js/app.min.js',
-        'vendor/laravel-admin/jquery-pjax/jquery.pjax.js',
-        'vendor/laravel-admin/nprogress/nprogress.js',
-        'vendor/laravel-admin/nestable/jquery.nestable.js',
-        'vendor/laravel-admin/toastr/build/toastr.min.js',
-        'vendor/laravel-admin/bootstrap3-editable/js/bootstrap-editable.min.js',
-        'vendor/laravel-admin/sweetalert2/dist/sweetalert2.min.js',
-        'vendor/laravel-admin/laravel-admin/laravel-admin.js',
+        'vendor/admin-lte/plugins/bootstrap/js/bootstrap.min.js',
+        'vendor/slimScroll/jquery.slimscroll.min.js',
+        'vendor/admin-lte/dist/js/app.min.js',
+        'vendor/jquery-pjax/jquery.pjax.js',
+        'vendor/nprogress/nprogress.js',
+        'vendor/nestable/jquery.nestable.js',
+        'vendor/toastr/build/toastr.min.js',
+        'vendor/bootstrap3-editable/js/bootstrap-editable.min.js',
+        'vendor/admin-lte/plugins/sweetalert2/sweetalert2.min.js',
+        'vendor/laravel-admin/laravel-admin.js',
     ];
 
     /**
@@ -665,15 +665,15 @@ class Admin
         $js = collect();
 
         $css->push([
-            '/vendor/laravel-admin/AdminLTE/plugins/iCheck/all.css',
-            '/vendor/laravel-admin/bootstrap-fileinput/css/fileinput.min.css?v=4.5.2',
-            '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.min.css',
+            '/vendor/iCheck/all.css',
+            '/vendor/bootstrap-fileinput/css/fileinput.min.css?v=4.5.2',
+            '/vendor/admin-lte/plugins/select2/select2.min.css',
         ]);
         $js->push([
-            '/vendor/laravel-admin/AdminLTE/plugins/iCheck/icheck.min.js',
-            '/vendor/laravel-admin/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js',
-            '/vendor/laravel-admin/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2',
-            '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js',
+            '/vendor/iCheck/icheck.min.js',
+            '/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js',
+            '/vendor/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2',
+            '/vendor/admin-lte/plugins/select2/select2.full.min.js',
         ]);
 
         return static::$collectedAssets = [
