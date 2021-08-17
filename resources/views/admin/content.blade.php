@@ -1,26 +1,31 @@
 @extends('admin::index', ['header' => strip_tags($header)])
 
 @section('content')
-    <section class="content-header">
-        <h1>
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">
             {!! $header ?: trans('admin.title') !!}
             <small>{!! $description ?: trans('admin.description') !!}</small>
-        </h1>
-
-        <!-- breadcrumb start -->
-        @if ($breadcrumb)
-        <ol class="breadcrumb" style="margin-right: 30px;">
-            <li><a href="{{ admin_url('/') }}"><i class="fa fa-dashboard"></i> {{__('Home')}}</a></li>
-            @foreach($breadcrumb as $item)
+            </h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            @if ($breadcrumb)
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">{{__('Home')}}</a></li>
+              @foreach($breadcrumb as $item)
                 @if($loop->last)
-                    <li class="active">
+                    <li class="breadcrumb-item active">
                         @if (\Illuminate\Support\Arr::has($item, 'icon'))
                             <i class="fa fa-{{ $item['icon'] }}"></i>
                         @endif
                         {{ $item['text'] }}
                     </li>
                 @else
-                <li>
+                <li class="breadcrumb-item">
                     @if (\Illuminate\Support\Arr::has($item, 'url'))
                         <a href="{{ admin_url(\Illuminate\Support\Arr::get($item, 'url')) }}">
                             @if (\Illuminate\Support\Arr::has($item, 'icon'))
@@ -37,24 +42,17 @@
                 </li>
                 @endif
             @endforeach
-        </ol>
-        @elseif(config('admin.enable_default_breadcrumb'))
-        <ol class="breadcrumb" style="margin-right: 30px;">
-            <li><a href="{{ admin_url('/') }}"><i class="fa fa-dashboard"></i> {{__('Home')}}</a></li>
-            @for($i = 2; $i <= count(Request::segments()); $i++)
-                <li>
-                {{ucfirst(Request::segment($i))}}
-                </li>
-            @endfor
-        </ol>
-        @endif
+            </ol>
+            @endif
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-        <!-- breadcrumb end -->
-
-    </section>
-
+    <!-- Main content -->
     <section class="content">
-
+        <div class="container-fluid">
         @include('admin::partials.alerts')
         @include('admin::partials.exception')
         @include('admin::partials.toastr')
@@ -64,6 +62,8 @@
         @else
             {!! $_content_ !!}
         @endif
-
+        </div>
     </section>
+
+  
 @endsection

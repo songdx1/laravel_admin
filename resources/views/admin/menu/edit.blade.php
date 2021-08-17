@@ -1,6 +1,5 @@
-<script src="/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js"></script>
 <link rel="stylesheet" href="/vendor/laravel-admin/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css">
-<script src="/vendor/laravel-admin/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
+<script src="/vendor/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>

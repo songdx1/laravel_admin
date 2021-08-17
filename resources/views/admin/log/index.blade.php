@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/vendor/iCheck/all.css">
 <script src="/vendor/iCheck/icheck.min.js"></script>
-<script src="/vendor/admin-lte/plugins/select2/select2.full.min.js"></script>
 <div class="box">
 
     <div class="box-header with-border">

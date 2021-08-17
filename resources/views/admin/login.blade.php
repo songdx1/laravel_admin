@@ -11,11 +11,10 @@
   <link rel="shortcut icon" href="{{$favicon}}">
   @endif
 
-  <!-- Bootstrap 3.3.5 -->
-  <link rel="stylesheet" href="{{ admin_asset("vendor/admin-lte/plugins/bootstrap/css/bootstrap.min.css") }}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ admin_asset("vendor//font-awesome/css/font-awesome.min.css") }}">
-  <!-- Theme style -->
+  
+  <!-- Theme style --><!-- Bootstrap 4.6 -->
   <link rel="stylesheet" href="{{ admin_asset("vendor/admin-lte/dist/css/AdminLTE.min.css") }}">
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ admin_asset("vendor/iCheck/square/blue.css") }}">
@@ -85,7 +84,7 @@
 <!-- /.login-box -->
 
 <!-- jQuery 2.1.4 -->
-<script src="{{ admin_asset("vendor/admin-lte/plugins/jquery/jQuery-2.1.4.min.js")}} "></script>
+<script src="{{ admin_asset("vendor/admin-lte/plugins/jquery/jquery.min.js")}} "></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ admin_asset("vendor/admin-lte/plugins/bootstrap/js/bootstrap.min.js")}}"></script>
 <!-- iCheck -->

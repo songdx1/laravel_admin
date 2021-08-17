@@ -34,7 +34,8 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    // 'logo-mini' => '<b>La</b>',
+    'logo-mini' => '/vendor/admin-lte/dist/img/AdminLTELogo.png',
 
     /*
     |--------------------------------------------------------------------------
@@ -250,7 +251,7 @@ return [
     | Set a default avatar for newly created users.
     |
     */
-    'default_avatar' => '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg',
+    'default_avatar' => '/vendor/admin-lte/dist/img/user2-160x160.jpg',
 
     /*
     |--------------------------------------------------------------------------

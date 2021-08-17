@@ -156,7 +156,7 @@ $('#totop').on('click', function (e) {
 
     $.fn.admin = LA;
     $.admin = LA;
-    $.admin.swal = swal;
+    // $.admin.swal = swal;
     $.admin.toastr = toastr;
     $.admin.grid = new Grid();
 

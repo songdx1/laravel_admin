@@ -1,4 +1,3 @@
-<script src="/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>
