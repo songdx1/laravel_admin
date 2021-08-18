@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
                         'parent_id' => 0,
                         'order'     => 1,
                         'title'     => '仪表盘',
-                        'icon'      => 'fa-bar-chart',
+                        'icon'      => 'fa-bars',
                         'uri'       => '/',
                     ],
                     [

@@ -1,10 +1,10 @@
 <div class="box">
 
     <div class="box-header with-border">
-        <div class="pull-left">
+        <div class="float-left">
             @include('admin::renderHeaderTools')
         </div>
-        <div class="pull-right">
+        <div class="float-right">
             @include('admin::renderRightTools',['actions'=>['create'=>1]])
         </div>        
     </div>
@@ -15,21 +15,21 @@
                     <div class="input-group">
                         <label class="col-sm-2 control-label"> ID</label>
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
                         </div>
                         <input type="number" class="form-control" placeholder="ID"  name="id" value="{{ request()->get('id') }}">
                     </div>
                     <div class="input-group">
                         <label class="col-sm-2 control-label"> 用户名</label>
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
                         </div>
                         <input type="number" class="form-control" placeholder="用户名" name="username" value="{{ request()->get('username') }}">
                     </div>
                     <div class="input-group">
                         <label class="col-sm-2 control-label"> 名称</label>
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
                         </div>
                         <input type="number" class="form-control" placeholder="名称" name="name" value="{{ request()->get('name') }}">
                     </div>

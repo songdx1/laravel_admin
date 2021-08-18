@@ -1,12 +1,12 @@
-<link rel="stylesheet" href="/vendor/iCheck/all.css">
-<script src="/vendor/iCheck/icheck.min.js"></script>
+<link rel="stylesheet" href="/vendor/icheck/skins/all.css">
+<script src="/vendor/icheck/icheck.min.js"></script>
 <div class="box">
 
     <div class="box-header with-border">
-        <div class="pull-left">
+        <div class="float-left">
             @include('admin::renderHeaderTools',['batchActions'=>['delete'=>1]])
         </div>
-        <div class="pull-right">
+        <div class="float-right">
             @include('admin::renderRightTools')
         </div>        
     </div>
@@ -17,7 +17,7 @@
                 <div class="input-group">
                     <label class="col-sm-2 control-label"> ID</label>
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                        <span class="input-group-text"><i class="fas fa-edit"></i></span>
                     </div>
                     <input type="number" class="form-control" placeholder="ID"  name="id" value="{{ request()->get('id') }}">
                 </div>
@@ -42,14 +42,14 @@
                 <div class="input-group">
                     <label class="col-sm-2 control-label"> 请求路径</label>
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                        <span class="input-group-text"><i class="fas fa-edit"></i></span>
                     </div>
                     <input type="text" class="form-control" placeholder="请求路径"  name="path" value="{{ request()->get('path') }}">
                 </div>
                 <div class="input-group">
                     <label class="col-sm-2 control-label"> Ip</label>
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                        <span class="input-group-text"><i class="fas fa-edit"></i></span>
                     </div>
                     <input type="text" class="form-control" placeholder="Ip"  name="ip" value="{{ request()->get('ip') }}">
                 </div>

@@ -647,6 +647,7 @@ class Admin
         'vendor/bootstrap3-editable/js/bootstrap-editable.min.js',
         'vendor/admin-lte/plugins/sweetalert2/sweetalert2.min.js',
         'vendor/admin-lte/plugins/select2/js/select2.min.js',
+        'vendor/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js',
         'vendor/laravel-admin/laravel-admin.js',
     ];
 
@@ -665,11 +666,11 @@ class Admin
         $js = collect();
 
         $css->push([
-            '/vendor/iCheck/all.css',
+            '/vendor/iCheck/skins/all.css',
             '/vendor/bootstrap-fileinput/css/fileinput.min.css?v=4.5.2',
         ]);
         $js->push([
-            '/vendor/iCheck/icheck.min.js',
+            '/vendor/icheck/icheck.min.js',
             '/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js',
             '/vendor/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2',
         ]);
