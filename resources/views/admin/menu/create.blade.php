@@ -27,20 +27,7 @@
                         <span class="input-group-text"><i class="fa fa-pencil"></i></span>
                     </div>
                     <input type="text" class="form-control"  id="title" name="title" value="" class="form-control name" placeholder=" 标题">        
-                </div>
-
-                <div class="input-group">
-                    <label for="icon" class="col-sm-2 asterisk control-label">图标</label>
-                    <div class="col-sm-8">        
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span> 
-                            <input style="width: 140px" type="text" id="icon" name="icon" value="fa-bars" class="form-control icon iconpicker-element iconpicker-input" placeholder="输入 图标" required="1">          
-                        </div>   
-                        <span class="help-block">
-                            <i class="fa fa-info-circle"></i>&nbsp;For more icons please see <a href="http://fontawesome.io/icons/" target="_blank">http://fontawesome.io/icons/</a>
-                        </span>     
-                    </div>
-                </div>
+                </div>                
 
                  <div class="input-group">
                     <label class="col-sm-2 control-label"> 路径</label>
@@ -57,6 +44,19 @@
                             <option value="{{$select}}" >{{$option}}</option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="icon" class="col-sm-2 asterisk control-label">图标</label>
+                    <div class="col-sm-8">        
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span> 
+                            <input style="width: 140px" type="text" id="icon" name="icon" value="fa-bars" class="form-control icon iconpicker-element iconpicker-input" placeholder="输入 图标" required="1">          
+                        </div>   
+                        <span class="help-block">
+                            <i class="fa fa-info-circle"></i>&nbsp;For more icons please see <a href="http://fontawesome.io/icons/" target="_blank">http://fontawesome.io/icons/</a>
+                        </span>     
+                    </div>
                 </div>
 
             </div>            
