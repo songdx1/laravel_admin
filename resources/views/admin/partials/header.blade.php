@@ -14,7 +14,7 @@
     <ul class="navbar-nav ml-auto">
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown user-panel">
+      <li class="nav-item dropdown">
         <a href="#" class="dropdown-toggle user-panel" data-toggle="dropdown">
             <!-- The user image in the navbar-->
             <img src="{{ Admin::user()->avatar }}" class="img-circle elevation-2" alt="User Image">
@@ -22,11 +22,9 @@
             <span class="hidden-xs">{{ Admin::user()->name }}</span>
         </a> 
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
+          <ul class="">
               <li class="user-header">
                   <img src="{{ Admin::user()->avatar }}" class="img-circle" alt="User Image">
-
                   <p>
                       {{ Admin::user()->name }}
                       <small>Member since admin {{ Admin::user()->created_at }}</small>

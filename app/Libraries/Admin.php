@@ -541,7 +541,7 @@ class Admin
      * @var array
      */
     public static $baseCss = [
-        'vendor/font-awesome/css/font-awesome.min.css',
+        'vendor/admin-lte/plugins/fontawesome-free/css/all.min.css',
         'vendor/laravel-admin/laravel-admin.css',
         'vendor/nprogress/nprogress.css',
         'vendor/admin-lte/plugins/sweetalert2/sweetalert2.css',

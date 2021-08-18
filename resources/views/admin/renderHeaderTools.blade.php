@@ -11,10 +11,8 @@
 </div>
 @endif
 
-<div class="btn-group" style="margin-right: 5px" data-toggle="buttons">
-    <label class="btn btn-sm btn-dropbox filter-btn" title="筛选">
-        <input type="checkbox"><i class="fa fa-filter"></i><span class="hidden-xs">&nbsp;&nbsp;筛选</span>
-    </label>
+<div class="btn-group" >
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-box">筛选</button>
 </div>
 
 <script>
@@ -96,14 +94,7 @@ $(function () {
     });
     @endif
 
-    $('.filter-btn').unbind('click');
-    $('.filter-btn').click(function (e) {
-        if ($('#filter-box').is(':visible')) {
-            $('#filter-box').addClass('hide');
-        } else {
-            $('#filter-box').removeClass('hide');
-        }
-    });
+ 
     
 });
 

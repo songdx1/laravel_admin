@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="/vendor/laravel-admin/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css">
-<script src="/vendor/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
+<link rel="stylesheet" href="/vendor/bootstrap-iconpicker/dist/css/bootstrap-iconpicker.min.css">
+<script src="/vendor/bootstrap-iconpicker/dist/js/bootstrap-iconpicker.bundle.min.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>
@@ -123,9 +123,4 @@
 <!-- /.box-footer -->
     </form>
 </div>
-<script>
-$(".roles").select2({"allowClear":true,"placeholder":{"id":"","text":"角色"}});
-$(".parent_id").select2({"allowClear":true,"placeholder":{"id":"","text":"父级菜单"}});
-$('.icon').iconpicker({placement:'bottomLeft'});
-</script>
 

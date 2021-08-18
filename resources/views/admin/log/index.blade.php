@@ -11,88 +11,56 @@
         </div>        
     </div>
 
-    <div class="box-header with-border hide" id="filter-box">
+    <div class="card card-info collapse  hide" id="filter-box">
         <form action="{!! $lists->path() !!}" class="form-horizontal" pjax-container method="get">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box-body">
-                        <div class="fields-group">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> ID</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-pencil"></i>
-                                        </div>
-                                        <input type="number" class="form-control" placeholder="ID" name="id" value="{{ request()->get('id') }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> 用户</label>
-                                <div class="col-sm-8">
-                                <select class="form-control user_id" name="user_id" style="width: 100%;">
-                                    <option></option>
-                                    @foreach($users as $select => $option)
-                                        <option value="{{$select}}" {{ (string)$select === request()->get('user_id') ?'selected':'' }}>{{$option}}</option>
-                                    @endforeach
-                                </select>                                    
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> 请求动作</label>
-                                <div class="col-sm-8">
-                                <select class="form-control method" name="method" style="width: 100%;">
-                                    <option></option>
-                                    @foreach($methods as $select => $option)
-                                        <option value="{{$select}}" {{ (string)$select === request()->get('method') ?'selected':'' }}>{{$option}}</option>
-                                    @endforeach
-                                </select>                                    
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> 请求路径</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group-addon">
-                                        <i class="fa fa-pencil"></i>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="请求路径" name="path" value="{{ request()->get('path') }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"> Ip</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-pencil"></i>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="Ip" name="ip" value="{{ request()->get('ip') }}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="card-body">           
+                <div class="input-group">
+                    <label class="col-sm-2 control-label"> ID</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-pencil"></i></span>
                     </div>
+                    <input type="number" class="form-control" placeholder="ID"  name="id" value="{{ request()->get('id') }}">
+                </div>
+                <div class="input-group">
+                    <label class="col-sm-2 control-label"> 用户</label>
+                    <select class="form-control" name="user_id" >
+                        <option>选择用户</option>
+                        @foreach($users as $select => $option)
+                            <option value="{{$select}}" {{ (string)$select === request()->get('user_id') ?'selected':'' }}>{{$option}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="col-sm-2 control-label"> 请求动作</label>
+                    <select class="form-control" name="method" >
+                        <option>选择请求动作</option>
+                        @foreach($methods as $select => $option)
+                            <option value="{{$select}}" {{ (string)$select === request()->get('method') ?'selected':'' }}>{{$option}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="col-sm-2 control-label"> 请求路径</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="请求路径"  name="path" value="{{ request()->get('path') }}">
+                </div>
+                <div class="input-group">
+                    <label class="col-sm-2 control-label"> Ip</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Ip"  name="ip" value="{{ request()->get('ip') }}">
                 </div>
             </div>
             <!-- /.box-body -->
 
-            <div class="box-footer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
-                            <div class="btn-group pull-left">
-                                <button class="btn btn-info submit btn-sm"><i class="fa fa-search"></i>&nbsp;&nbsp;{{ trans('admin.search') }}</button>
-                            </div>
-                            <div class="btn-group pull-left " style="margin-left: 10px;">
-                                <a href="{!! $lists->path() !!}" class="btn btn-default btn-sm"><i class="fa fa-undo"></i>&nbsp;&nbsp;{{ trans('admin.reset') }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-foote">
+                <button class="btn btn-info submit btn-sm">{{ trans('admin.search') }}</button>
+                <a href="{!! $lists->path() !!}" class="btn-default float-right">{{ trans('admin.reset') }}</a>
             </div>
+ 
         </form>
         
     </div>
