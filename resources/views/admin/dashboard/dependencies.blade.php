@@ -1,16 +1,18 @@
-<div class="box box-default">
-    <div class="box-header with-border">
-        <h3 class="box-title">Dependencies</h3>
+<!-- Default box -->
+<div class="card">
+    <div class="card-header">
+    <h3 class="card-title">Dependencies</h3>
 
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
+    <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+        <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+        <i class="fas fa-times"></i>
+        </button>
     </div>
-
-    <!-- /.box-header -->
-    <div class="box-body dependencies">
+    </div>
+    <div class="card-body">
         <div class="table-responsive">
             <table class="table table-striped">
                 @foreach($dependencies as $dependency => $version)
@@ -21,9 +23,9 @@
                 @endforeach
             </table>
         </div>
-        <!-- /.table-responsive -->
     </div>
-    <!-- /.box-body -->
+    <!-- /.card-body -->
 </div>
+<!-- /.card -->
 
 

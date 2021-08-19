@@ -192,7 +192,7 @@ class Tools implements Renderable
         $list = trans('admin.list');
 
         return <<<HTML
-<div class="btn-group pull-right" style="margin-right: 5px">
+<div class="btn-group float-right" style="margin-right: 5px">
     <a href="{$this->getListPath()}" class="btn btn-sm btn-default" title="{$list}">
         <i class="fa fa-list"></i><span class="hidden-xs"> {$list}</span>
     </a>
@@ -210,7 +210,7 @@ HTML;
         $edit = trans('admin.edit');
 
         return <<<HTML
-<div class="btn-group pull-right" style="margin-right: 5px">
+<div class="btn-group float-right" style="margin-right: 5px">
     <a href="{$this->getEditPath()}" class="btn btn-sm btn-primary" title="{$edit}">
         <i class="fa fa-edit"></i><span class="hidden-xs"> {$edit}</span>
     </a>
@@ -278,7 +278,7 @@ $('.{$class}-delete').unbind('click').click(function() {
 SCRIPT;
 
         return <<<HTML
-<div class="btn-group pull-right" style="margin-right: 5px">
+<div class="btn-group float-right" style="margin-right: 5px">
     <a href="javascript:void(0);" class="btn btn-sm btn-danger {$class}-delete" title="{$trans['delete']}">
         <i class="fa fa-trash"></i><span class="hidden-xs">  {$trans['delete']}</span>
     </a>

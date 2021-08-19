@@ -92,18 +92,15 @@ class AuthController extends Controller
      */
     public function getSetting(Content $content)
     {
-        $form = $this->settingForm();
-        $form->tools(
-            function (Form\Tools $tools) {
-                $tools->disableList();
-                $tools->disableDelete();
-                $tools->disableView();
-            }
-        );
 
         return $content
             ->title(trans('admin.user_setting'))
-            ->body($form->edit(Admin::user()->id));
+            ->view(
+                'admin.auth.user_setting',
+                [
+                    'model'=>Admin::user(),
+                ]
+            );
     }
 
     /**
