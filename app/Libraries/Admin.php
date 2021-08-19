@@ -530,10 +530,6 @@ class Admin
             return static::$baseCss = $css;
         }
 
-        $skin = config('admin.skin', 'skin-blue-light');
-
-        // array_unshift(static::$baseCss, "vendor/admin-lte/dist/css/skins/{$skin}.min.css");
-
         return static::$baseCss;
     }
 
@@ -546,7 +542,7 @@ class Admin
         'vendor/nprogress/nprogress.css',
         'vendor/admin-lte/plugins/sweetalert2/sweetalert2.css',
         'vendor/nestable/nestable.css',
-        'vendor/toastr/build/toastr.min.css',
+        'vendor/admin-lte/plugins/toastr/toastr.min.css',
         'vendor/bootstrap3-editable/css/bootstrap-editable.css',
         'vendor/google-fonts/fonts.css',
         'vendor/admin-lte/dist/css/AdminLTE.min.css',
@@ -638,12 +634,11 @@ class Admin
      */
     public static $baseJs = [
         'vendor/admin-lte/plugins/bootstrap/js/bootstrap.min.js',
-        'vendor/slimScroll/jquery.slimscroll.min.js',
         'vendor/admin-lte/dist/js/adminlte.min.js',
         'vendor/jquery-pjax/jquery.pjax.js',
         'vendor/nprogress/nprogress.js',
         'vendor/nestable/jquery.nestable.js',
-        'vendor/toastr/build/toastr.min.js',
+        'vendor/admin-lte/plugins/toastr/toastr.min.js',
         'vendor/bootstrap3-editable/js/bootstrap-editable.min.js',
         'vendor/admin-lte/plugins/sweetalert2/sweetalert2.min.js',
         'vendor/admin-lte/plugins/select2/js/select2.min.js',
@@ -667,12 +662,11 @@ class Admin
 
         $css->push([
             '/vendor/iCheck/skins/all.css',
-            '/vendor/bootstrap-fileinput/css/fileinput.min.css?v=4.5.2',
+            '/vendor/bootstrap-fileinput/css/fileinput.min.css',
         ]);
         $js->push([
             '/vendor/icheck/icheck.min.js',
-            '/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js',
-            '/vendor/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2',
+            '/vendor/bootstrap-fileinput/js/fileinput.min.js',
         ]);
 
         return static::$collectedAssets = [

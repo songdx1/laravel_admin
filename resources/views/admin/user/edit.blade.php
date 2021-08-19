@@ -1,5 +1,4 @@
-<script src="/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"></script>
-<script src="/vendor/bootstrap-fileinput/js/fileinput.min.js?v=4.5.2"></script>
+<script src="/vendor/bootstrap-fileinput/js/fileinput.min.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>
