@@ -25,7 +25,7 @@
             @foreach($extensions as $extension)
             <li class="item">
                 <div class="product-img">
-                    <i class="fa fa-{{$extension['icon']}} fa-2x ext-icon"></i>
+                    <i class="{{$extension['icon']}}"></i>
                 </div>
                 <div class="product-info">
                     <a href="{{ $extension['link'] }}" target="_blank" class="product-title">
@@ -42,8 +42,5 @@
         </ul>
     </div>
     <!-- /.box-body -->
-    <div class="box-footer text-center">
-        <a href="https://github.com/laravel-admin-extensions" target="_blank" class="uppercase">View All Extensions</a>
-    </div>
-    <!-- /.box-footer -->
+
 </div>
