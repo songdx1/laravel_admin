@@ -125,21 +125,10 @@ class AuthController extends Controller
         {
             $user->password = Hash::make($request->password);
         }
-        $user->username = $request->username;
         $user->name = $request->name;
+        $user->save();
 
-        $user::beginTransaction();
-        try{
-            $user->save();
-            $user->roles()->sync($request->roles);
-            $user->permissions()->sync($request->permissions);
-            $user::commit();
-        }catch(\Exception $e){
-            $e->getMessage();
-            $user::rollBack();
-        }
-
-        return redirect()->route('admin.auth.users.index', $user);
+        return redirect(admin_url('auth/setting'));
     }
 
     /**
