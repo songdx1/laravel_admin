@@ -51,11 +51,13 @@
 
             <div class="input-group mb-3">
                 <label for="roles" class="col-sm-2 control-label">角色</label>
-                <select class="form-control" name="roles[]" multiple data-placeholder="选择角色" aria-hidden = "true" >
-                    @foreach($roles as $select => $option)
-                    <option value="{{$select}}" {{  in_array($select, $model->roles()->pluck('id')->toArray() ) ?'selected':'' }}>{{$option}}</option>
-                    @endforeach
-                </select>
+                <div class="input-group-prepend col-sm-10">
+                    <select class="form-control roles" name="roles[]" multiple style="width: 100%;">
+                        @foreach($roles as $select => $option)
+                        <option value="{{$select}}" {{  in_array($select, $model->roles()->pluck('id')->toArray() ) ?'selected':'' }}>{{$option}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             
             <div class="form-group mb-3">
@@ -79,22 +81,17 @@
     </div>
     <!-- /.box-body -->
 
-    <div class="card-foote row">
-        @csrf
-        @method('PUT')
-        <div class="col-md-8">
-        </div>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary">提交</button>
-            <button type="reset" class="btn btn-warning">重置</button>
-        </div>
-    </div>
+    @include('admin::editFormFooter')
 
 <!-- /.box-footer -->
     </form>
 </div>
 
 <script>
+$(".roles").select2({
+    placeholder: "选择角色",
+    allowClear: true
+});
 $('#convert_example_1').iconpicker({
     cols: 15,
     rows: 6,

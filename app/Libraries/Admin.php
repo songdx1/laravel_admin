@@ -540,6 +540,8 @@ class Admin
         'vendor/admin-lte/plugins/fontawesome-free/css/all.min.css',
         'vendor/laravel-admin/laravel-admin.css',
         'vendor/nprogress/nprogress.css',
+        'vendor/admin-lte/plugins/select2/css/select2.min.css',
+        'vendor/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
         'vendor/admin-lte/plugins/sweetalert2/sweetalert2.css',
         'vendor/nestable/nestable.css',
         'vendor/admin-lte/plugins/toastr/toastr.min.css',
@@ -634,6 +636,7 @@ class Admin
      */
     public static $baseJs = [
         'vendor/admin-lte/plugins/bootstrap/js/bootstrap.min.js',
+        // 'vendor/admin-lte/plugins/popper/popper.min.js',
         'vendor/admin-lte/dist/js/adminlte.min.js',
         'vendor/jquery-pjax/jquery.pjax.js',
         'vendor/nprogress/nprogress.js',

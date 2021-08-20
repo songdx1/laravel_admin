@@ -25,7 +25,7 @@
             <div class="input-group mb-3">
                 <label for="name" class="col-sm-2 asterisk control-label">名称</label>
                 <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-edit"></i></span>                            
+                    <span class="input-group-text"><i class="fas fa-edit"></i></span>                            
                 </div>       
                 <input type="text" id="name" name="name" value="{{ $model->name }}" class="form-control name" placeholder="输入 名称">                            
             </div>
@@ -33,20 +33,19 @@
             <div class="input-group mb-3">
                 <label for="username" class="col-sm-2 asterisk control-label">标识</label>
                 <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-edit"></i></span>           
+                    <span class="input-group-text"><i class="fas fa-edit"></i></span>           
                 </div>        
                 <input type="text" id="slug" name="slug" value="{{ $model->slug }}" class="form-control slug" placeholder="输入 标识">            
             </div>
             
             <div class="input-group mb-3">
                 <label for="permissions" class="col-sm-2 control-label">权限</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select class="form-control permissions" style="width: 100%;" name="permissions[]" multiple="multiple" data-placeholder="输入 权限" data-value >
                         @foreach($permissions as $select => $option)
                             <option value="{{$select}}" {{  in_array($select, $model->permissions()->pluck('id')->toArray() ) ?'selected':'' }}>{{$option}}</option>
                         @endforeach
                     </select>
-                    <input type="hidden" name="permissions[]" />
                 </div>
             </div>
             
@@ -73,13 +72,9 @@
     </form>
 </div>
 <script>
-$(".permissions").bootstrapDualListbox({
-    "infoText":"总共 {0} 项",
-    "infoTextEmpty":"空列表",
-    "infoTextFiltered":"{0} / {1}",
-    "filterTextClear":"显示全部",
-    "filterPlaceHolder":"过滤",
-    "selectorMinimalHeight":200
+$(".permissions").select2({
+    placeholder: "选择权限",
+    allowClear: true
 });
 </script>
 

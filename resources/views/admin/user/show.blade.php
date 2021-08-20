@@ -10,11 +10,10 @@
     <!-- form start -->
     <div class="form-horizontal">
 
-        <div class="box-body">
-
-            <div class="fields-group">
-
-                <div class="form-group ">
+        <div class="card-body row">
+            <div class="col-sm-2  control-label"></div>
+            <div class="col-sm-8">
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">ID</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">
@@ -24,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">用户名</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">
@@ -34,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">名称</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">
@@ -44,7 +43,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="input-group mb-3">
+                    <label class="col-sm-2 control-label">头像</label>
+                    <div class="col-sm-8">
+                        @if($model->avatar) 
+                            <img src="{{ $model->avatar }}" style="width:100px;">
+                        @endif
+                    </div>
+                </div>
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">角色</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">
@@ -56,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">权限</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">
@@ -68,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">创建时间</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">
@@ -78,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group ">
+                <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">更新时间</label>
                     <div class="col-sm-8">
                         <div class="box box-solid box-default no-margin box-show">

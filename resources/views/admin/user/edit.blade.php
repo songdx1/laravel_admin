@@ -56,8 +56,8 @@
 
                 <div class="input-group mb-3">
                 <label class="col-sm-2 control-label">角色</label>
-                    <div class="input-group-prepend">
-                        <select multiple class="custom-select" name="roles[]" data-placeholder="选择角色" >
+                    <div class="input-group-prepend col-sm-10">
+                        <select multiple class="roles" name="roles[]" style="width: 100%;">
                             @foreach($roles as $select => $option)
                                 <option value="{{$select}}" {{  in_array($select, $model->roles()->pluck('id')->toArray() ) ?'selected':'' }}>{{$option}}</option>
                             @endforeach
@@ -67,8 +67,8 @@
 
                 <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">权限</label>
-                    <div class="input-group-prepend">
-                        <select multiple class="custom-select" name="permissions[]" data-placeholder="选择权限" >
+                    <div class="input-group-prepend col-sm-10">
+                        <select multiple class="permissions" name="permissions[]" style="width: 100%;">
                             @foreach($permissions as $select => $option)
                                 <option value="{{$select}}" {{  in_array($select, $model->permissions()->pluck('id')->toArray() ) ?'selected':'' }} >{{$option}}</option>
                             @endforeach
@@ -100,8 +100,14 @@
     </form>
 </div>
 <script>
-$(".roles").select2({"allowClear":true,"placeholder":{"id":"","text":"角色"}});
-$(".permissions").select2({"allowClear":true,"placeholder":{"id":"","text":"权限"}});
+$(".roles").select2({
+    placeholder: "选择角色",
+    allowClear: true
+});
+$(".permissions").select2({
+    placeholder: "选择权限",
+    allowClear: true
+});
 $("input.avatar").fileinput({
     "overwriteInitial":false,
     "msgPlaceholder":"选择文件",

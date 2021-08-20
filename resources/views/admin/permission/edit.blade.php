@@ -38,14 +38,14 @@
             
             <div class="input-group mb-3">
                 <label for="http_method" class="col-sm-2 control-label">HTTP方法</label>
-                <div class="input-group-prepend">
-                    <select multiple class="custom-select" name="http_method[]" data-placeholder="HTTP方法">
+                <div class="input-group-prepend col-sm-10">
+                    <select multiple class="form-control http_method" name="http_method[]">
                         @foreach($methods as $select => $option)
                             <option value="{{$select}}" {{  in_array($select, $model->http_method??[] ) ?'selected':'' }}>{{$option}}</option>
                         @endforeach
                     </select>
                     <span class="help-block">
-                        <i class="fa fa-info-circle"></i>&nbsp;为空默认为所有方法
+                        <i class="fa fa-info-circle"></i>为空默认为所有方法
                     </span>
                 </div>
             </div>
@@ -80,6 +80,9 @@
     </form>
 </div>
 <script>
-$(".http_method").select2({"allowClear":true,"placeholder":{"id":"","text":"权限"}});
+$(".http_method").select2({
+    placeholder: "选择HTTP方法",
+    allowClear: true
+});
 </script>
 

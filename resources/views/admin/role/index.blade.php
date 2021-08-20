@@ -77,7 +77,7 @@
                     </td>
                     <td>
                         @foreach($list->permissions as $key => $value)
-                            <span class="label label-success">{{ $value->name }}</span>
+                            <span class="btn btn-default">{{ $value->name }}</span>
                         @endforeach
                     </td>
                     <td>

@@ -37,7 +37,7 @@
 
         <div class="input-group mb-3">
             <label for="roles" class="col-sm-2 control-label">角色</label>
-            <select class="form-control" name="roles[]" multiple data-placeholder="选择角色" aria-hidden = "true" >
+            <select class="permissions col-sm-10" name="roles[]" multiple data-placeholder="选择角色" aria-hidden = "true" >
                 @foreach($roles as $select => $option)
                     <option value="{{$select}}" >{{$option}}</option>
                 @endforeach
@@ -57,7 +57,7 @@
         @csrf
         <div class="col-md-10">
             <button type="submit" class="btn btn-primary float-right">提交</button>
-            <button type="reset" class="btn btn-warning float-right">重置</button>
+            <button type="reset" class="btn btn-warning">重置</button>
         </div>
     </div>
 
@@ -66,8 +66,12 @@
 </div>
 <script>
 $('#convert_example_1').iconpicker({
-    cols: 7,
-    rows: 4,
+    cols: 10,
+    rows: 5,
+});
+$(".permissions").select2({
+    placeholder: "选择权限",
+    allowClear: true
 });
 </script>
 
