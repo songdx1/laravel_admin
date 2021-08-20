@@ -542,7 +542,7 @@ class Admin
         'vendor/nprogress/nprogress.css',
         'vendor/admin-lte/plugins/select2/css/select2.min.css',
         'vendor/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
-        'vendor/admin-lte/plugins/sweetalert2/sweetalert2.css',
+        'vendor/sweetalert2/dist/sweetalert2.css',
         'vendor/nestable/nestable.css',
         'vendor/admin-lte/plugins/toastr/toastr.min.css',
         'vendor/bootstrap3-editable/css/bootstrap-editable.css',
@@ -635,17 +635,16 @@ class Admin
      * @var array
      */
     public static $baseJs = [
+        'vendor/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js',
         'vendor/admin-lte/plugins/bootstrap/js/bootstrap.min.js',
-        // 'vendor/admin-lte/plugins/popper/popper.min.js',
         'vendor/admin-lte/dist/js/adminlte.min.js',
         'vendor/jquery-pjax/jquery.pjax.js',
         'vendor/nprogress/nprogress.js',
         'vendor/nestable/jquery.nestable.js',
         'vendor/admin-lte/plugins/toastr/toastr.min.js',
         'vendor/bootstrap3-editable/js/bootstrap-editable.min.js',
-        'vendor/admin-lte/plugins/sweetalert2/sweetalert2.min.js',
+        'vendor/sweetalert2/dist/sweetalert2.min.js',
         'vendor/admin-lte/plugins/select2/js/select2.min.js',
-        'vendor/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js',
         'vendor/laravel-admin/laravel-admin.js',
     ];
 

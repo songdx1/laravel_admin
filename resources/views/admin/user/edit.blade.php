@@ -1,9 +1,9 @@
 <script src="/vendor/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="/vendor/bootstrap-fileinput/js/locales/zh.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">编辑</h3>
 
-        <div class="box-tools">
+        <div class="text-right">
             {!! $tools !!}
         </div>
     </div>
@@ -34,7 +34,7 @@
                 <div class="input-group mb-3">
                     <label class="col-sm-2 control-label">头像</label>
                     <div class="col-sm-8">
-                        <input type="file" class="avatar" name="avatar" >
+                        <input type="file" id="avatar" name="avatar" >
                     </div>
                 </div>
 
@@ -88,13 +88,13 @@
                         {{ $model->updated_at }}
                     </div>
                 </div>
-
+                @method('PUT')
             </div>            
         </div>
     </div>
     <!-- /.box-body -->    
 
-    @include('admin::editFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>
@@ -108,10 +108,8 @@ $(".permissions").select2({
     placeholder: "选择权限",
     allowClear: true
 });
-$("input.avatar").fileinput({
-    "overwriteInitial":false,
-    "msgPlaceholder":"选择文件",
-    "browseLabel":"浏览",
+$("#avatar").fileinput({
+    'language': 'zh',
     initialPreviewAsData: true,
     initialPreview: [
         '{{ $model->avatar }}',

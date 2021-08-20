@@ -1,8 +1,7 @@
 <div class="box box-info">
-    <div class="box-header with-border">
-        <h3 class="box-title">创建</h3>
-
-        <div class="box-tools">
+    <div class="row">
+        <h3 class="col-sm-6 box-title">创建</h3>
+        <div class="col-sm-6 text-right">
             {!! $tools !!}
         </div>
     </div>
@@ -56,7 +55,7 @@
     </div>
     <!-- /.box-body -->
 
-    @include('admin::createFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>

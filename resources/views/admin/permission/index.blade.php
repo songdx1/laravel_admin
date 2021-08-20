@@ -12,21 +12,21 @@
     <div class="card card-info collapse  hide" id="filter-box">
         <form action="{!! $lists->path() !!}" class="form-horizontal" pjax-container method="get">
             <div class="card-body">
-                <div class="input-group">
+                <div class="input-group mb-2">
                     <label class="col-sm-2 control-label"> ID</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-edit"></i></span>
                     </div>
                     <input type="number" class="form-control" placeholder="ID"  name="id" value="{{ request()->get('id') }}">
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-2">
                     <label class="col-sm-2 control-label"> 标识</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-edit"></i></span>
                     </div>
                     <input type="number" class="form-control" placeholder="标识" name="slug" value="{{ request()->get('slug') }}">
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-2">
                     <label class="col-sm-2 control-label"> 名称</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-edit"></i></span>
@@ -38,8 +38,8 @@
             <!-- /.box-body -->
 
             <div class="card-foote">
-                <button class="btn btn-info submit btn-sm">{{ trans('admin.search') }}</button>
-                <a href="{!! $lists->path() !!}" class="btn-default float-right">{{ trans('admin.reset') }}</a>
+                <button class="mb-3 btn btn-info submit btn-sm"><i class="fa fa-search"></i>{{ trans('admin.search') }}</button>
+                <a href="{!! $lists->path() !!}" class="mb-3 btn btn-default float-right"><i class="fa fa-undo"></i>{{ trans('admin.reset') }}</a>
             </div>
             
         </form>

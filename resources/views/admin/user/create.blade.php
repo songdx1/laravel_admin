@@ -1,9 +1,9 @@
 <script src="/vendor/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="/vendor/bootstrap-fileinput/js/locales/zh.js"></script>
 <div class="box box-info">
-    <div class="box-header with-border">
-        <h3 class="box-title">创建</h3>
-
-        <div class="box-tools">
+    <div class="row">
+        <h3 class="col-sm-6 box-title">创建</h3>
+        <div class="col-sm-6 text-right">
             {!! $tools !!}
         </div>
     </div>
@@ -80,7 +80,7 @@
     </div>
     <!-- /.box-body -->
 
-    @include('admin::createFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>
@@ -94,6 +94,8 @@ $(".permissions").select2({
     placeholder: "选择权限",
     allowClear: true
 });
-$("input.avatar").fileinput({"overwriteInitial":false,"msgPlaceholder":"选择文件","initialPreviewAsData":true,"browseLabel":"浏览"});
+$("input.avatar").fileinput({
+    'language': 'zh',
+});
 </script>
 

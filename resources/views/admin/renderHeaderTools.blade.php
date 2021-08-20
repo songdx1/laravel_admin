@@ -12,7 +12,7 @@
 @endif
 
 <div class="btn-group" >
-    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-box">筛选</button>
+    <button type="button" class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#filter-box"><i class="fas fa-filter"></i>筛选</button>
 </div>
 
 <script>

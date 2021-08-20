@@ -1,9 +1,9 @@
-<script src="/vendor/laravel-admin/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js"></script>
+<link rel="stylesheet" href="/vendor/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+<script src="/vendor/admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 <div class="box box-info">
-    <div class="box-header with-border">
-        <h3 class="box-title">创建</h3>
-
-        <div class="box-tools">
+    <div class="row">
+        <h3 class="col-sm-6 box-title">创建</h3>
+        <div class="col-sm-6 text-right">
             {!! $tools !!}
         </div>
     </div>
@@ -45,15 +45,19 @@
     </div>
     <!-- /.box-body -->
 
-    @include('admin::createFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>
 </div>
 <script>
-$(".permissions").select2({
-    placeholder: "选择权限",
-    allowClear: true
+$(".permissions").bootstrapDualListbox({
+    "infoText":"总共 {0} 项",
+    "infoTextEmpty":"空列表",
+    "infoTextFiltered":"{0} / {1}",
+    "filterTextClear":"显示全部",
+    "filterPlaceHolder":"过滤",
+    "selectorMinimalHeight":200
 });
 </script>
 

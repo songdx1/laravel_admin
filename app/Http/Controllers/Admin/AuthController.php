@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -108,9 +109,37 @@ class AuthController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function putSetting()
+    public function putSetting(Request $request)
     {
-        return $this->settingForm()->update(Admin::user()->id);
+
+        $userModel = config('admin.database.users_model');
+        $user = $userModel::findOrFail(Admin::user()->id);
+        //头像        
+        if ($request->hasFile('avatar')){
+            $avatar = $request->file('avatar');
+            $path = $avatar->store('images/'.date('Ymd'), 'admin');
+            $user->avatar = $path;
+        }
+        //密码
+        if($request->password && $request->password_confirmation && $request->password == $request->password_confirmation)
+        {
+            $user->password = Hash::make($request->password);
+        }
+        $user->username = $request->username;
+        $user->name = $request->name;
+
+        $user::beginTransaction();
+        try{
+            $user->save();
+            $user->roles()->sync($request->roles);
+            $user->permissions()->sync($request->permissions);
+            $user::commit();
+        }catch(\Exception $e){
+            $e->getMessage();
+            $user::rollBack();
+        }
+
+        return redirect()->route('admin.auth.users.index', $user);
     }
 
     /**

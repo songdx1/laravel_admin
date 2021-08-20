@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>
 
-        <div class="box-tools">
+        <div class="text-right">
             {!! $tools !!}
         </div>
     </div>
@@ -69,12 +69,12 @@
                     {{ $model->updated_at }}
                 </div>
             </div>
-
+            @method('PUT')
         </div>            
     </div>
     <!-- /.box-body -->
 
-    @include('admin::editFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>

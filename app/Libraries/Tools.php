@@ -192,11 +192,9 @@ class Tools implements Renderable
         $list = trans('admin.list');
 
         return <<<HTML
-<div class="btn-group float-right" style="margin-right: 5px">
-    <a href="{$this->getListPath()}" class="btn btn-sm btn-default" title="{$list}">
+    <a href="{$this->getListPath()}" class="mb-3 btn btn-sm btn-default" title="{$list}">
         <i class="fa fa-list"></i><span class="hidden-xs"> {$list}</span>
     </a>
-</div>
 HTML;
     }
 
@@ -210,11 +208,9 @@ HTML;
         $edit = trans('admin.edit');
 
         return <<<HTML
-<div class="btn-group float-right" style="margin-right: 5px">
-    <a href="{$this->getEditPath()}" class="btn btn-sm btn-primary" title="{$edit}">
+    <a href="{$this->getEditPath()}" class="mb-3 btn btn-sm btn-primary" title="{$edit}">
         <i class="fa fa-edit"></i><span class="hidden-xs"> {$edit}</span>
     </a>
-</div>
 HTML;
     }
 
@@ -278,11 +274,9 @@ $('.{$class}-delete').unbind('click').click(function() {
 SCRIPT;
 
         return <<<HTML
-<div class="btn-group float-right" style="margin-right: 5px">
-    <a href="javascript:void(0);" class="btn btn-sm btn-danger {$class}-delete" title="{$trans['delete']}">
+    <a href="javascript:void(0);" class="mb-3 btn btn-sm btn-danger {$class}-delete" title="{$trans['delete']}">
         <i class="fa fa-trash"></i><span class="hidden-xs">  {$trans['delete']}</span>
     </a>
-</div>
 HTML;
     }
 

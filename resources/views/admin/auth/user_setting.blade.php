@@ -1,4 +1,5 @@
 <script src="/vendor/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="/vendor/bootstrap-fileinput/js/locales/zh.js"></script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">编辑</h3>
@@ -47,21 +48,20 @@
                 </div>
                 <input type="password" id="password_confirmation" name="password_confirmation" value="" class="form-control password_confirmation" placeholder="输入确认密码">
             </div>
-
+            @method('PUT')
         </div>            
     </div>
     <!-- /.box-body -->    
 
-    @include('admin::editFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>
 </div>
 <script>
 $("input.avatar").fileinput({
+    'language': 'zh',
     "overwriteInitial":false,
-    "msgPlaceholder":"选择文件",
-    "browseLabel":"浏览",
     initialPreviewAsData: true,
     initialPreview: [
         '{{ $model->avatar }}',
