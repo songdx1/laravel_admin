@@ -77,6 +77,7 @@
                     {{ $model->updated_at }}
                 </div>         
             </div>
+            @method('PUT')
         </div>
     </div>
     <!-- /.box-body -->

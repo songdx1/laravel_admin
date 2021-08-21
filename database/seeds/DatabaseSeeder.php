@@ -107,14 +107,14 @@ class DatabaseSeeder extends Seeder
                     [
                         'parent_id' => 0,
                         'order'     => 2,
-                        'title'     => '系统管理',
+                        'title'     => '后台管理',
                         'icon'      => 'fa-tasks',
                         'uri'       => '',
                     ],
                     [
                         'parent_id' => 2,
                         'order'     => 3,
-                        'title'     => '用户',
+                        'title'     => '管理员',
                         'icon'      => 'fa-users',
                         'uri'       => 'auth/users',
                     ],

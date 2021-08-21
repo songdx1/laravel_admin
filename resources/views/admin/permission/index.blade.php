@@ -76,7 +76,7 @@
                     </td>
                     <td>
                         @php
-                        $path = $list->path;
+                        $path = $list->http_path;
                         $method = $list->http_method ?: ['ANY'];
                         if (Str::contains($path, ':')) {
                             list($method, $path) = explode(':', $path);
@@ -85,7 +85,7 @@
                         $method = collect($method)->map(function ($name) {
                             return strtoupper($name);
                         })->map(function ($name) {
-                            return "<span class='label label-primary'>{$name}</span>";
+                            return "<span class='badge badge-primary'>{$name}</span>";
                         })->implode('&nbsp;');
                         if (!empty(config('admin.route.prefix'))) {
                             $path = '/'.trim(config('admin.route.prefix'), '/').$path;
