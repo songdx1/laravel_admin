@@ -81,7 +81,7 @@
     </div>
     <!-- /.box-body -->
 
-    @include('admin::editFormFooter')
+    @include('admin::formFooter')
 
 <!-- /.box-footer -->
     </form>

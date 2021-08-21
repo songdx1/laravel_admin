@@ -75,7 +75,7 @@ class RoleController extends Controller
     public function show($id, Content $content)
     {
         $model = Role::findOrFail($id);
-        $tools = new \App\Libraries\Tools($model);
+        $tools = new \App\Libraries\ShowTools($model);
 
         return $content
             ->title($this->title())
@@ -96,7 +96,7 @@ class RoleController extends Controller
     {
         $permissionModel = config('admin.database.permissions_model');
         $model = Role::findOrFail($id);
-        $tools = new \App\Libraries\Tools($model);
+        $tools = new \App\Libraries\FormTools($model);
 
         return $content
             ->title($this->title())
@@ -122,7 +122,7 @@ class RoleController extends Controller
     public function create(Content $content)
     {
         $permissionModel = config('admin.database.permissions_model');
-        $tools = new \App\Libraries\Tools(new Role);
+        $tools = new \App\Libraries\FormTools(new Role);
 
         return $content
             ->title($this->title())

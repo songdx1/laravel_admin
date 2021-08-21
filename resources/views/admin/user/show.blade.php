@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">详细</h3>
 
-        <div class="box-tools">
+        <div class="text-right">
             {!! $tools !!}
         </div>
     </div>

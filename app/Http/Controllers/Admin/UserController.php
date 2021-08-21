@@ -79,7 +79,7 @@ class UserController extends Controller
     {
         $userModel = config('admin.database.users_model');
         $model = $userModel::findOrFail($id);
-        $tools = new \App\Libraries\Tools($model);
+        $tools = new \App\Libraries\ShowTools($model);
 
         return $content
             ->title($this->title())
@@ -102,7 +102,7 @@ class UserController extends Controller
         $permissionModel = config('admin.database.permissions_model');
         $roleModel = config('admin.database.roles_model');
         $model = $userModel::findOrFail($id);
-        $tools = new \App\Libraries\Tools($model);
+        $tools = new \App\Libraries\FormTools($model);
 
         return $content
             ->title($this->title())
@@ -131,7 +131,7 @@ class UserController extends Controller
         $userModel = config('admin.database.users_model');
         $permissionModel = config('admin.database.permissions_model');
         $roleModel = config('admin.database.roles_model');
-        $tools = new \App\Libraries\Tools($userModel);
+        $tools = new \App\Libraries\FormTools($userModel);
 
         return $content
             ->title($this->title())

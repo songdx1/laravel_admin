@@ -7,14 +7,8 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 
-class Tools implements Renderable
+class FormTools implements Renderable
 {
-    /**
-     * The panel that holds this tool.
-     *
-     * @var Panel
-     */
-    protected $panel;
 
     /**
      * @var string
@@ -22,11 +16,11 @@ class Tools implements Renderable
     protected $resource;
 
     /**
-     * Default tools.
+     * Collection of tools.
      *
      * @var array
      */
-    protected $tools = ['delete', 'edit', 'list'];
+    protected $tools = ['delete', 'view', 'list'];
 
     /**
      * Tools should be appends to default tools.
@@ -42,12 +36,10 @@ class Tools implements Renderable
      */
     protected $prepends;
 
-    protected $route_name;
-
     /**
-     * Tools constructor.
+     * Create a new Tools instance.
      *
-     * @param Panel $panel
+     * @param Builder $builder
      */
     public function __construct($model = null , $route_name = '')
     {
@@ -86,7 +78,7 @@ class Tools implements Renderable
         return $this;
     }
 
-    /**
+     /**
      * Get resource path.
      *
      * @return string
@@ -137,12 +129,12 @@ class Tools implements Renderable
      *
      * @return $this
      */
-    public function disableEdit(bool $disable = true)
+    public function disableView(bool $disable = true)
     {
         if ($disable) {
-            array_delete($this->tools, 'edit');
-        } elseif (!in_array('edit', $this->tools)) {
-            array_push($this->tools, 'edit');
+            array_delete($this->tools, 'view');
+        } elseif (!in_array('view', $this->tools)) {
+            array_push($this->tools, 'view');
         }
 
         return $this;
@@ -155,7 +147,7 @@ class Tools implements Renderable
      */
     protected function getListPath()
     {
-        return ltrim($this->getResource(), '/');
+        return $this->getResource();
     }
 
     /**
@@ -163,11 +155,9 @@ class Tools implements Renderable
      *
      * @return string
      */
-    protected function getEditPath()
+    protected function getDeletePath()
     {
-        $key = $this->model->getKey();
-
-        return $this->getListPath().'/'.$key.'/edit';
+        return $this->getViewPath();
     }
 
     /**
@@ -175,42 +165,58 @@ class Tools implements Renderable
      *
      * @return string
      */
-    protected function getDeletePath()
+    protected function getViewPath()
     {
         $key = $this->model->getKey();
 
-        return $this->getListPath().'/'.$key;
+        if ($key) {
+            return $this->getListPath().'/'.$key;
+        } else {
+            return $this->getListPath();
+        }
     }
 
     /**
-     * Render `list` tool.
+     * Get parent form of tool.
+     *
+     * @return Builder
+     */
+    public function form()
+    {
+        return $this->form;
+    }
+
+    /**
+     * Render list button.
      *
      * @return string
      */
     public function renderList()
     {
-        $list = trans('admin.list');
+        $text = trans('admin.list');
 
-        return <<<HTML
-    <a href="{$this->getListPath()}" class="mb-3 btn btn-sm btn-default" title="{$list}">
-        <i class="fa fa-list"></i><span class="hidden-xs"> {$list}</span>
-    </a>
-HTML;
+        return <<<EOT
+<div class="btn-group pull-right" style="margin-right: 5px">
+    <a href="{$this->getListPath()}" class="btn btn-sm btn-default" title="$text"><i class="fa fa-list"></i><span class="hidden-xs">&nbsp;$text</span></a>
+</div>
+EOT;
     }
 
     /**
-     * Render `edit` tool.
+     * Render list button.
      *
      * @return string
      */
-    protected function renderEdit()
+    protected function renderView()
     {
-        $edit = trans('admin.edit');
+        $view = trans('admin.view');
 
         return <<<HTML
-    <a href="{$this->getEditPath()}" class="mb-3 btn btn-sm btn-primary" title="{$edit}">
-        <i class="fa fa-edit"></i><span class="hidden-xs"> {$edit}</span>
+<div class="btn-group pull-right" style="margin-right: 5px">
+    <a href="{$this->getViewPath()}" class="btn btn-sm btn-primary" title="{$view}">
+        <i class="fa fa-eye"></i><span class="hidden-xs"> {$view}</span>
     </a>
+</div>
 HTML;
     }
 
@@ -273,11 +279,52 @@ $('.{$class}-delete').unbind('click').click(function() {
 
 SCRIPT;
 
+        Admin::script($script);
+
         return <<<HTML
-    <a href="javascript:void(0);" class="mb-3 btn btn-sm btn-danger {$class}-delete" title="{$trans['delete']}">
+<div class="btn-group pull-right" style="margin-right: 5px">
+    <a href="javascript:void(0);" class="btn btn-sm btn-danger {$class}-delete" title="{$trans['delete']}">
         <i class="fa fa-trash"></i><span class="hidden-xs">  {$trans['delete']}</span>
     </a>
+</div>
 HTML;
+    }
+
+    /**
+     * Add a tool.
+     *
+     * @param string $tool
+     *
+     * @return $this
+     *
+     * @deprecated use append instead.
+     */
+    public function add($tool)
+    {
+        return $this->append($tool);
+    }
+
+    /**
+     * Disable back button.
+     *
+     * @return $this
+     *
+     * @deprecated
+     */
+    public function disableBackButton()
+    {
+    }
+
+    /**
+     * Disable list button.
+     *
+     * @return $this
+     *
+     * @deprecated Use disableList instead.
+     */
+    public function disableListButton()
+    {
+        return $this->disableList();
     }
 
     /**
@@ -289,6 +336,11 @@ HTML;
      */
     protected function renderCustomTools($tools)
     {
+
+        if (empty($tools)) {
+            return '';
+        }
+
         return $tools->map(function ($tool) {
             if ($tool instanceof Renderable) {
                 return $tool->render();
@@ -312,9 +364,6 @@ HTML;
         $output = $this->renderCustomTools($this->prepends);
 
         foreach ($this->tools as $tool) {
-            if(!Admin::user()->can('auth.'.$this->route_name.'.'.$tool)){
-                continue;
-            }
             $renderMethod = 'render'.ucfirst($tool);
             $output .= $this->$renderMethod();
         }
@@ -340,5 +389,4 @@ HTML;
 
         return url($this->resource);
     }
-
 }
