@@ -5,9 +5,9 @@
         <span class="caret"></span>
         <span class="sr-only">Toggle Dropdown</span>
     </button>
-    <ul class="dropdown-menu" role="menu">
-        <li><a href="#" class="grid-batch-0">批量删除 </a></li>
-    </ul>
+    <div class="dropdown-menu" role="menu">
+        <a href="#" class="dropdown-item grid-batch-0">批量删除 </a>
+    </div>
 </div>
 @endif
 
@@ -33,20 +33,12 @@ $(function () {
     $('.grid-row-checkbox').iCheck({checkboxClass:'icheckbox_minimal-blue'}).on('ifChanged', function () {    
         var id = $(this).data('id');
         if (this.checked) {
-            $.admin.grid.select(id);
             $(this).closest('tr').css('background-color', '#ffffd5');
         } else {
-            $.admin.grid.unselect(id);
             $(this).closest('tr').css('background-color', '');
         }
-    }).on('ifClicked', function () {        
-        var id = $(this).data('id');        
-        if (this.checked) {
-            $.admin.grid.unselect(id);
-        } else {
-            $.admin.grid.select(id);
-        }        
-        var selected = $.admin.grid.selected().length;        
+    }).on('ifClicked', function () {  
+        var selected = $('input.grid-row-checkbox:checked').length+1;       
         if (selected > 0) {
             $('.grid-select-all-btn').show();
         } else {

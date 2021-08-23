@@ -538,15 +538,12 @@ class Admin
      */
     public static $baseCss = [
         'vendor/admin-lte/plugins/fontawesome-free/css/all.min.css',
-        'vendor/laravel-admin/laravel-admin.css',
         'vendor/nprogress/nprogress.css',
         'vendor/admin-lte/plugins/select2/css/select2.min.css',
         'vendor/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
         'vendor/sweetalert2/dist/sweetalert2.css',
         'vendor/nestable/nestable.css',
         'vendor/admin-lte/plugins/toastr/toastr.min.css',
-        'vendor/bootstrap3-editable/css/bootstrap-editable.css',
-        'vendor/google-fonts/fonts.css',
         'vendor/admin-lte/dist/css/AdminLTE.min.css',
     ];
 
@@ -642,10 +639,8 @@ class Admin
         'vendor/nprogress/nprogress.js',
         'vendor/nestable/jquery.nestable.js',
         'vendor/admin-lte/plugins/toastr/toastr.min.js',
-        'vendor/bootstrap3-editable/js/bootstrap-editable.min.js',
         'vendor/sweetalert2/dist/sweetalert2.min.js',
         'vendor/admin-lte/plugins/select2/js/select2.min.js',
-        'vendor/laravel-admin/laravel-admin.js',
     ];
 
     /**
