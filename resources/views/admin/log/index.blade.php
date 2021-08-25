@@ -57,8 +57,8 @@
             <!-- /.box-body -->
 
             <div class="card-foote">
-                <button class="btn btn-info submit btn-sm">{{ trans('admin.search') }}</button>
-                <a href="{!! $lists->path() !!}" class="btn-default float-right">{{ trans('admin.reset') }}</a>
+                <button class="mb-3 btn btn-info submit btn-sm"><i class="fa fa-search"></i>{{ trans('admin.search') }}</button>
+                <a href="{!! $lists->path() !!}" class="mb-3 btn btn-default float-right"><i class="fa fa-undo"></i>{{ trans('admin.reset') }}</a>
             </div>
  
         </form>
