@@ -538,7 +538,6 @@ class Admin
      */
     public static $baseCss = [
         'vendor/admin-lte/plugins/fontawesome-free/css/all.min.css',
-        'vendor/nprogress/nprogress.css',
         'vendor/admin-lte/plugins/select2/css/select2.min.css',
         'vendor/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
         'vendor/sweetalert2/dist/sweetalert2.css',
@@ -633,10 +632,8 @@ class Admin
      */
     public static $baseJs = [
         'vendor/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js',
-        'vendor/admin-lte/plugins/bootstrap/js/bootstrap.min.js',
         'vendor/admin-lte/dist/js/adminlte.min.js',
         'vendor/jquery-pjax/jquery.pjax.js',
-        'vendor/nprogress/nprogress.js',
         'vendor/nestable/jquery.nestable.js',
         'vendor/admin-lte/plugins/toastr/toastr.min.js',
         'vendor/sweetalert2/dist/sweetalert2.min.js',
