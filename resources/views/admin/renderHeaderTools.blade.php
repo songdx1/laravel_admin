@@ -58,9 +58,13 @@ $(function () {
             cancelButtonText: "取消",
             preConfirm: function() {
                 return new Promise(function(resolve) {
+                    var ids=[];
+                    $('input.grid-row-checkbox:checked').each(function(){ 
+                        ids.push($(this).data('id')) 
+                    }) 
                     $.ajax({
                         method: 'post',
-                        url: '{{$lists->path()}}/' + $.admin.grid.selected().join(),
+                        url: '{{$lists->path()}}/' + ids,
                         data: {
                             _method:'delete',
                             _token:LA.token,

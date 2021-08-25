@@ -71,9 +71,7 @@
             <thead>
                 <tr>
                     <th class="column-__row_selector__">
-                        <div class="icheckbox_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                            <input type="checkbox" class="grid-select-all">
-                        </div>
+                        <input type="checkbox" class="grid-select-all">
                     </th>
                     <th class="column-id">ID</th>
                     <th class="column-user-name">用户</th>
@@ -91,9 +89,7 @@
                 @foreach($lists as $list)
                 <tr>
                     <td class="column-__row_selector__">
-                        <div class="icheckbox_minimal-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                            <input type="checkbox" class="grid-row-checkbox" data-id="{{ $list->id }}">                            
-                        </div>
+                        <input type="checkbox" class="grid-row-checkbox" data-id="{{ $list->id }}">                            
                     </td>
                     <td>
                         {{ $list->id }}
@@ -197,6 +193,7 @@
             placeholder: {"id":"","text":"选择"},
             "allowClear":true
         });
+        $('input').iCheck();
     })(jQuery);
 
 </script>
